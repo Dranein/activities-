@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>prelosd</title>
+  <style type="text/css">
+    .wrap {
+    }
+    img {
+      width: 100%;
+    }
+    #load {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #preLoad {
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img src="http://www.bizhidaquan.com/d/file/dongwu/mao/2014-12-31/9ac761baf727458ff6f47b0d10773a90.jpg">
+    <img src="http://desk.fd.zol-img.com.cn/t_s960x600c5/g5/M00/02/09/ChMkJ1bKzp6IK3zvACU6u8_k1lcAALJMwAcdoEAJTrT440.jpg">
+    <img src="http://b-ssl.duitang.com/uploads/item/201703/23/20170323142606_nCvhc.thumb.700_0.jpeg">
+    <img src="http://desk.fd.zol-img.com.cn/g5/M00/03/02/ChMkJlbLCw2IMm0TAAGiRq5FBzkAALLgQH10TkAAaJe156.jpg">
+  </div>
+  <div id="load">0%</div>
+  <div id="preLoad"></div>
+  <script src="./index.js"></script>
+</body>
+<script type="text/javascript">
+  
+</script>
+</html>
