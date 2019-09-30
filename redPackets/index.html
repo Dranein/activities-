@@ -7,6 +7,7 @@
   <title>红包雨</title>
   <style type="text/css">
     .wrap {
+      position: relative;
       background: rgba(47, 59, 106, 0.3);
       position: absolute;
       left: 20px;
@@ -24,7 +25,7 @@
     #startGameBtn {
       position: absolute;
       bottom: 20px;
-      left: 20%;
+      left: 20px;
       text-align: center;
       background: red;
       height: 50px;
@@ -35,6 +36,13 @@
       border-radius: 30px;
       box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
     }
+    #showTime {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      font-size: 16px;
+      color: #999;
+    }
   </style>
 </head>
 <body>
@@ -42,23 +50,26 @@
     <div id="redPacketWarp"></div>
   </div>
   <div id="startGameBtn">startGame</div>
+  <div id="showTime">得分：0</div>
   <script src="./index.js"></script>
 </body>
 <script type="text/javascript">
   window.onload = () => {
     let $startGameBtn = document.getElementById('startGameBtn');
-    let canvasRedpacket = new CanvasRedpacket({
+    let $showTime = document.getElementById('showTime');
+    let gameRedpacket = new GameRedpacket({
       el: 'redPacketWarp',
-      timeout: 10000,
-      success: (date) => {
-        alert('恭喜你！');
+      timeout: 40000,
+      gameScore: (date) => {
+        $showTime.innerHTML = `得分：${date}`;
       },
-      gameover: (date) => {
-        alert('超时了，gameover');
+      gameTimesOut: (date) => {
+        console.log(date)
+        alert('时间到啦,您的最后得分为:'+date);
       }
     });
     $startGameBtn.onclick = function(){
-      canvasRedpacket.startGame();
+      gameRedpacket.startGame();
     }
   }
 </script>
