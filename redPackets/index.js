@@ -50,7 +50,6 @@ class GameRedpacket {
 				redPacket.init();
 				redPacket.hasInit = true;
 			}
-			redPacket.y += redPacket.speed;
       if (redPacket.y > this.redPacketWarp.height + redPacket.height*2) {
     		redPacket.initStart();
       }
@@ -80,21 +79,17 @@ class GameRedpacket {
 	addRedpacketList () {
 		let timeout = setInterval(() => {
 			if (this.redPacketList.length <= this.redpacketNum) {
-				this.addRedpacket();
+				this.redPacketList.push(new RedPacket(this));
 			} else {
 				clearInterval(timeout);
 			}
 		}, 1000)
 	}
-	addRedpacket () {
-		let redPacket = new RedPacket(this, this.redImgUrl);
-		this.redPacketList.push(redPacket);
-	}
 }
 class RedPacket {
-	constructor (gameRedpacket, redImgUrl) {
+	constructor (gameRedpacket) {
 		this.gameRedpacket = gameRedpacket;
-		this.redImgUrl = redImgUrl;
+		this.redImgUrl = gameRedpacket.redImgUrl;
 		this.width = 50;
 		this.height = 50;
 		this.hasInit = false;
@@ -102,6 +97,9 @@ class RedPacket {
 		this.$img = document.createElement('IMG');
 		this.$img.src = this.redImgUrl;
 		this.$img.setAttribute('data-id', this.id);
+		this.hasSelected = false;
+		this.y = 0;
+		this.speed = Math.random()*2 + 3;
 	}
 	init () {
 		this.initStart ();
@@ -142,6 +140,7 @@ class RedPacket {
 	}
 	move() {
 		if (!this.hasSelected) {
+			this.y += this.speed;
 			this.$img.style.transform = `translateY(${this.y}px)`;
 		}
 	}
