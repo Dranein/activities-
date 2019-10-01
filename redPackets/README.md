@@ -3,7 +3,7 @@
 
 [gitHub地址](https://github.com/Dranein/activities-/tree/master/redPackets)如果觉得还ok的话，点个star吧；
 
-##首先先简单的写一下页面并加上样式
+### 首先先简单的写一下页面并加上样式
 ```javascript
 <body>
   <div class="wrap">
@@ -48,7 +48,7 @@
 ```
 
 
-##新建一个***GameRedpacket***类,作为整个游戏的框架；
+### 新建一个***GameRedpacket***类,作为整个游戏的框架；
 首先我们先定义这个类的一些属性，并定义一个开始游戏的方法startGame();
 ```javascript
 class GameRedpacket {
@@ -74,7 +74,7 @@ GameRedpacket必须传入的参数是el(游戏框架的元素id)
 redImgUrl在项目中有默认的图片，也可传入自定义的图片；
 
 
-##new一个GameRedpacket实例对象
+### new一个GameRedpacket实例对象
 ```javascript
 window.onload = () => {
     let $startGameBtn = document.getElementById('startGameBtn');
@@ -99,7 +99,7 @@ window.onload = () => {
 gameScore和gameTimesOut是两个回调函数，分别是得分和游戏结束，都返回当前得分；
 
 
-##接下里回到GameRedpacket，我们开始编写GameRedpacket类的方法
+### 接下里回到GameRedpacket，我们开始编写GameRedpacket类的方法
 ```javascript
 class GameRedpacket {
     //...
@@ -130,7 +130,7 @@ reder()渲染；
 为了扩展和灵活调用，我们按照功能细分出来
 
 
-##添加红包addRedpacketList()
+### 添加红包addRedpacketList()
 ```javascript
 class GameRedpacket {
     //...
@@ -168,7 +168,7 @@ addRedpacketList()所要做的工作是添加红包;
 为了后面更加清晰和易于扩展，红包将作为一个新的类***RedPacket***；同时我们会将GameRedpacket作为参数传入，这样RedPacket也能拿到GameRedpacket的属性，
 
 
-###接下来是render()函数，实现红包的渲染，这里我们主要用到了requestAnimationFrame，实现一个递归，需要了解requestAnimationFrame的，请戳->[window.requestAnimationFrame(callback)](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
+### 接下来是render()函数，实现红包的渲染，这里我们主要用到了requestAnimationFrame，实现一个递归，需要了解requestAnimationFrame的，请戳->[window.requestAnimationFrame(callback)](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
 ```javascript
 class GameRedpacket {
     //...
@@ -227,7 +227,7 @@ class RedPacket {
 当然，如果不能点的话，这个游戏还有什么意义，接下来我们来做红包的点击
 
 
-##点击红包
+### 点击红包
 红包的点击事件我们委托给了游戏的最外层元素，也就是传入的el；
 ```javascript
 class GameRedpacket {
@@ -288,7 +288,7 @@ class RedPacket {
 红包被选中之后有个300ms的过场动画，动画之后便重新initStart()，恢复初始状态，如果游戏结束了，那就不做处理了；
 
 
-##回调函数
+### 回调函数
 游戏时间到了：gameTimesOut，将弹出当前得到的分数
 ```javascript
 class GameRedpacket {
