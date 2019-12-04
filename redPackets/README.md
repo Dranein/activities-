@@ -3,6 +3,8 @@
 
 [gitHub地址](https://github.com/Dranein/activities-/tree/master/redPackets)如果觉得还ok的话，点个star吧；
 
+![预览图](https://github.com/Dranein/activities-/blob/master/redPackets/redpack.gif?raw=true)
+
 ### 首先先简单的写一下页面并加上样式
 ```javascript
 <body>
