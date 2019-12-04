@@ -5,6 +5,8 @@
 这本小册比较简单，对canvas的一些应用场景介绍，api的介绍，然后通过一个例子进行实战；
 
 #### 看完小册之后便动起手来
+![预览图](https://github.com/Dranein/activities-/blob/master/canvas/city/city.gif?raw=true)
+
 背景颜色模拟昼夜交替的做法让我有点意外，这小脑袋也太机智了
 笔者利用了一个蓝黑的渐变作为最底层的背景颜色，然后通过一个有透明度动画效果的遮罩层实现昼夜交替的效果；
 
@@ -78,9 +80,9 @@ window.onload = () => {
 ```
 
 用面向对象的方式，会使整个逻辑更加的清晰；
-*CanvasRond是整个舞台对象
-*RounItem是粒子对象
-*MouseRound是触摸移动生成的圆的对象
+* CanvasRond是整个舞台对象
+* RounItem是粒子对象
+* MouseRound是触摸移动生成的圆的对象
 
 ```javascript
 class CanvasRond {
