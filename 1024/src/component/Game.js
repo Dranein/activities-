@@ -45,9 +45,7 @@ class Game extends React.Component {
 
   render() {
     let {list, score, step} = this.state;
-    return <div className='wrapper' style={{
-      backgroundImage: `url('${require('../static/bg.jpg')}')`
-    }}>
+    return <div className='wrapper'>
       <div className='game_head'>
         <div className='game_head-box'>
           <p>步数:</p>
