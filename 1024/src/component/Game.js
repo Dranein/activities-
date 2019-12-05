@@ -37,13 +37,17 @@ class Game extends React.Component {
         case 'swipedown':
           this.handleBottom();
           break;
+        default:
+          break;
       }
     });
   }
 
   render() {
     let {list, score, step} = this.state;
-    return <div className='wrapper'>
+    return <div className='wrapper' style={{
+      backgroundImage: `url('${require('../static/bg.jpg')}')`
+    }}>
       <div className='game_head'>
         <div className='game_head-box'>
           <p>步数:</p>
