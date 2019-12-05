@@ -80,6 +80,19 @@ class Game extends React.Component {
     </div>;
   }
 
+  handleLeft() {
+    let list = this.merge(this.state.list);
+    this.toSetDate(list, 'left');
+  }
+
+  handleRight() {
+    let {list} = this.state;
+    list = list.map(item => item.reverse());
+    list = this.merge(list);
+    list = list.map(item => item.reverse());
+    this.toSetDate(list, 'right');
+  }
+
   handleTop() {
     let list = this.rotate(this.state.list);
     list = this.merge(list);
@@ -94,19 +107,6 @@ class Game extends React.Component {
     this.toSetDate(list, 'bottom');
   }
 
-  handleLeft() {
-    let list = this.merge(this.state.list);
-    this.toSetDate(list, 'left');
-  }
-
-  handleRight() {
-    let {list} = this.state;
-    list = list.map(item => item.reverse());
-    list = this.merge(list);
-    list = list.map(item => item.reverse());
-    this.toSetDate(list, 'right');
-  }
-
   // 相加合并
   merge(list) {
     let arr = list;
@@ -118,14 +118,12 @@ class Game extends React.Component {
       for (let k = 0; k < arrCutZero.length; k++) {
         if (arrCutZero[k + 1] && arrCutZero[k + 1] === arrCutZero[k]) {
           newArr[i][k] = arrCutZero[k] * 2;
-          arrCutZero[k] = 0;
           arrCutZero[k + 1] = 0;
           score += newArr[i][k];
         } else {
           newArr[i][k] = arrCutZero[k];
         }
       }
-      newArr[i] = newArr[i].filter(item => item !== 0);
       let num = list[0].length - newArr[i].length;
       if (num > 0) {
         newArr[i].splice(newArr[i].length, 0, ...Array(num).fill(0));
@@ -138,16 +136,16 @@ class Game extends React.Component {
   }
 
   // 旋转数组，clockwise的话是顺时针
-  rotate(arr, clockwise) {
+  rotate(list, clockwise) {
     let newArr = [];
-    let len = arr.length;
+    let len = list.length;
     for (let i = 0; i < len; i++) {
       newArr[i] = [];
       for (let j = 0; j < len; j++) {
         if (clockwise) {
-          newArr[i][j] = arr[len - 1 - j][i];
+          newArr[i][j] = list[len - 1 - j][i];
         } else {
-          newArr[i][j] = arr[j][len - 1 - i];
+          newArr[i][j] = list[j][len - 1 - i];
         }
       }
     }
@@ -161,12 +159,12 @@ class Game extends React.Component {
       backPreClick: click === type ? click : type,
       list
     }, () => {
-      this.mergeEnd(click === type);
+      this.updateStateAfter(click === type);
     })
   }
 
   // 相加合并之后执行的判断函数，是否赢了，是否游戏结束，不然就给空格随机加个2或者4
-  mergeEnd(isSameClick) {
+  updateStateAfter(isSameClick) {
     let {list} = this.state;
     this.setState({
       step: this.state.step + 1
@@ -183,8 +181,8 @@ class Game extends React.Component {
 
   // 判断是否赢了
   isWin(list) {
-    let arr = list.map(item => item.some(val => val === this.successScore));
-    return arr.some(item => item === true);
+    let arr = [].concat(...list);
+    return arr.some(val => val === this.successScore);
   }
 
   // 判断是否已经没有操作空间了
@@ -224,12 +222,11 @@ class Game extends React.Component {
 
   // 判断是否是满格的
   isFull(list) {
-    let arr = list.map(item => item.some(val => val === 0));
-    let isFull = arr.every(item => item === false);
-    return isFull;
+    let arr = [].concat(...list);
+    return !arr.some(val => val === 0);
   }
 
-  // 随机添加2或4
+  // 随机添加0,2或4
   addRandom() {
     let isFull = this.isFull(this.state.list);
     if (isFull) return;
