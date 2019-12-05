@@ -4,22 +4,46 @@
 }
 
 .wrapper {
-  background: #999;
+  background: #8a8a8a;
+  background: url("../bg.jpg");
   height: 100vh;
   color: #fff;
-  padding: 20px;
-
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .game_head {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 20px;
+    &-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      background: rgba(225, 225, 225, 0.2);
+      padding: 5px 20px;
+      border: 2px solid #c0c0c0;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+  }
   .game_content {
+    background: rgba(225, 225, 225, 0.2);
     border: 2px solid #c0c0c0;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
-    height: 60vh;
+    width: 100%;
 
     .game_row {
       display: flex;
       align-items: center;
-      height: 23%;
-      margin: 1% 0;
+      height: 80px;
+      margin: 5px 0;
       justify-content: center;
     }
 
@@ -30,10 +54,62 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: #e49b51;
+      background: rgba(189, 174, 141, 0.55);
       font-size: 30px;
       border-radius: 5px;
       font-weight: bold;
+
+      &.game_col0 {
+        font-size: 0;
+      }
+
+      &.game_col2 {
+        background: #f5c277;
+      }
+
+      &.game_col4 {
+        background: #f7b24c;
+      }
+
+      &.game_col8 {
+        background: #f79506;
+      }
+
+      &.game_col16 {
+        background: #ff7514;
+      }
+
+      &.game_col32 {
+        background: #da5a00;
+      }
+
+      &.game_col64 {
+        background: #8e3b00;
+      }
+
+      &.game_col128 {
+        background: #5d1f01;
+      }
+
+      &.game_col256 {
+        font-size: 25px;
+        background: #b72b2b;
+      }
+
+      &.game_col512 {
+        font-size: 25px;
+        background: #711c1c;
+      }
+
+      &.game_col1024 {
+        font-size: 20px;
+        background: #1c2771;
+      }
+
+      &.game_col2048 {
+        font-size: 20px;
+        background: #100101;
+      }
     }
   }
 
@@ -42,11 +118,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     & > div {
       padding: 10px 0;
       text-align: center;
       width: 25%;
-      margin: 0 20px;
+      margin: 0 5px;
       background: #2e8423;
       font-size: 20px;
       font-weight: bold;
