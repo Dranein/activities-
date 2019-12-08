@@ -1,10 +1,3 @@
-window.requestAnimFrame = (function () {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function ( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-      return window.setTimeout(callback, 1000 / 60);
-    };
-})();
-
 let preTime = new Date();
 let gapTime = 0;
 
@@ -26,19 +19,7 @@ class Canvas {
     this.bubbleImg2 = new Image();
     this.bubbleImg1.src = './img/pao1.png';
     this.bubbleImg2.src = './img/pao2.png';
-    let num = 0;
-    this.bubbleImg1.onload = () => {
-      num ++
-      if (num === 2) {
-        this.init();
-      }
-    }
-    this.bubbleImg2.onload = () => {
-      num ++
-      if (num === 2) {
-        this.init();
-      }
-    }
+    this.init();
   }
 
   init() {
