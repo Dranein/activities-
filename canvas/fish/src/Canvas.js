@@ -1,3 +1,11 @@
+import {lerpDistance} from './commonFunctions';
+
+import img_blue from './images/blue.png';
+import img_fruit from './images/fruit.png';
+import img_big from './images/big.png';
+import img_bigEye0 from './images/bigEye0.png';
+import img_bigTail0 from './images/bigTail0.png';
+
 let preTime = new Date();
 let gapTime = 0;
 
@@ -17,15 +25,18 @@ class Canvas {
     this.bubbleNum = 15;
     this.bubbleImg1 = new Image();
     this.bubbleImg2 = new Image();
-    this.bubbleImg1.src = require('./images/blue.png');
-    this.bubbleImg2.src = require('./images/fruit.png');
+    this.bubbleImg1.src = img_blue;
+    this.bubbleImg2.src = img_fruit;
+    this.bigFish = '';
     this.init();
   }
 
   init() {
     this.initKelp();
     this.addBubble();
+    this.initFish();
     this.loop();
+    this.addEvent();
   }
 
   loop() {
@@ -45,7 +56,24 @@ class Canvas {
       item.growUp();
       item.draw();
     });
+    this.bigFish.draw();
     this.addBubble();
+  }
+
+  initFish() {
+    let img_body = new Image();
+    let img_tail = new Image();
+    let img_eye = new Image();
+    img_body.src = img_big;
+    img_tail.src = img_bigTail0;
+    img_eye.src = img_bigEye0;
+    this.bigFish = new Fish({
+      img_body,
+      img_tail,
+      img_eye,
+      ctx: this.content1
+    })
+    this.bigFish.init();
   }
 
   initKelp() {
@@ -90,6 +118,44 @@ class Canvas {
       }
     }
     this.bubbleList = bubbleList;
+  }
+
+  addEvent() {
+    window.addEventListener('mousemove', e => {
+      let x = e.clientX;
+      let y = e.clientY;
+      this.bigFish.x = lerpDistance(x, this.bigFish.x, 0.9);
+      this.bigFish.y = lerpDistance(y, this.bigFish.y, 0.9);
+    }, false)
+  }
+}
+
+class Fish {
+  constructor({img_body, img_tail, img_eye, x = 0, y = 0, width = 30, height = 34, ctx}) {
+    this.img_body = img_body;
+    this.img_tail = img_tail;
+    this.img_eye = img_eye;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.ctx = ctx;
+  }
+
+  init() {
+    this.x = this.ctx.canvas.width / 2 - this.width / 2;
+    this.y = this.ctx.canvas.height / 2 - this.height / 2;
+    this.draw();
+  }
+
+  draw() {
+    let {x, y, width, height, ctx, img_body, img_tail, img_eye} = this;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.drawImage(img_body, -this.width / 2, -this.height / 2, width, height);
+    ctx.drawImage(img_tail, -this.width / 2 + 23, -this.height / 2 + 6, width / 1.5, height / 1.5);
+    ctx.drawImage(img_eye, -this.width / 2 + 13, -this.height / 2 + 14, 5, 5);
+    ctx.restore();
   }
 }
 

@@ -1,5 +1,13 @@
 import {imgPreLoad} from './commonFunctions';
 import Canvas from './Canvas';
+import './css/index.scss';
+
+import img_blue from './images/blue.png';
+import img_fruit from './images/fruit.png';
+import img_big from './images/big.png';
+import img_bigEye0 from './images/bigEye0.png';
+import img_bigTail0 from './images/bigTail0.png';
+
 
 window.requestAnimFrame = (function() {
   return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
@@ -11,14 +19,14 @@ window.requestAnimFrame = (function() {
 window.onload = () => {
   imgPreLoad({
     imgList: [
-      require('./images/blue.png').default,
-      require('./images/fruit.png').default,
-      require('./images/big.png').default,
-      require('./images/bigEye0.png').default,
-      require('./images/bigTail0.png').default
+      img_big,
+      img_bigEye0,
+      img_bigTail0,
+      img_blue,
+      img_fruit
     ],
     progressCallback: progress => {
-      console.log(progress);
+
     },
     sucessCallback: () => {
       let canvas1 = document.getElementById('canvas1');
