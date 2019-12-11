@@ -1,10 +1,3 @@
-window.requestAnimFrame = (function() {
-	return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-		function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-			return window.setTimeout(callback, 1000 / 60);
-		};
-})();
-
 function imgPreLoad({imgList, progressCallback, sucessCallback}) {
 	const len = imgList.length;
 	let num = 0;
@@ -124,4 +117,20 @@ function dis2(x, y, x0, y0) {
 function rndi2(m, n) {
 	var a = Math.random() * (n - m) + m;
 	return Math.floor(a);
+}
+
+export {
+	imgPreLoad,
+	randomColor,
+	lerpAngle,
+	lerpDistance,
+	inOboundary,
+	rgbColor,
+	rgbNum,
+	rnd,
+	rateRandom,
+	distance,
+	AABBbox,
+	dis2,
+	rndi2,
 }

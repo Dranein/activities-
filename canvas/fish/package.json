@@ -1,0 +1,17 @@
+{
+  "name": "fish",
+  "version": "1.0.0",
+  "description": "慕课网课程的学习demo： [HTML5小游戏---爱心鱼](https://www.imooc.com/learn/515)",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --devtool source-map"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "file-loader": "^5.0.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.6.1"
+  }
+}

@@ -22,7 +22,7 @@
       right: 0;
       bottom: 0;
       top: 0;
-      background: url("./img/background.jpg") no-repeat center;
+      /*background: url("./img/background.jpg") no-repeat center;*/
       background-size: cover;
     }
     #canvas1 {
@@ -46,32 +46,5 @@
     <canvas id="canvas2"></canvas>
   </div>
 </body>
-<script src="./js/commonFunctions.js"></script>
-<script src="./js/Canvas.js"></script>
-<script type="text/javascript">
-  window.onload = () => {
-    imgPreLoad({
-      imgList: [
-        './img/pao1.png',
-        './img/pao2.png',
-        './img/big.png',
-        './img/bigEye0.png',
-        './img/bigTail0.png',
-      ],
-      progressCallback: progress => {
-        console.log(progress);
-      },
-      sucessCallback: () => {
-        let canvas1 = document.getElementById('canvas1');
-        let canvas2 = document.getElementById('canvas2');
-        this.canvas = new Canvas({
-          el1: canvas1,
-          el2: canvas2,
-          width: window.innerWidth,
-          height: window.innerHeight
-        })
-      }
-    });
-  }
-</script>
+<script src="index.js"></script>
 </html>

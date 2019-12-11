@@ -17,8 +17,8 @@ class Canvas {
     this.bubbleNum = 15;
     this.bubbleImg1 = new Image();
     this.bubbleImg2 = new Image();
-    this.bubbleImg1.src = './img/pao1.png';
-    this.bubbleImg2.src = './img/pao2.png';
+    this.bubbleImg1.src = require('./images/blue.png');
+    this.bubbleImg2.src = require('./images/fruit.png');
     this.init();
   }
 
@@ -150,3 +150,5 @@ class Bubble {
 
   }
 }
+
+export default Canvas;
