@@ -30,11 +30,12 @@ window.onload = () => {
     sucessCallback: () => {
       let canvas1 = document.getElementById('canvas1');
       let canvas2 = document.getElementById('canvas2');
+      let parentNode = canvas1.parentNode;
       this.canvas = new Canvas({
         el1: canvas1,
         el2: canvas2,
-        width: window.innerWidth,
-        height: window.innerHeight
+        width: parentNode.offsetWidth,
+        height: parentNode.offsetHeight
       })
     }
   });
