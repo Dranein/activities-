@@ -8,7 +8,6 @@ import img_big from './images/big.png';
 import img_bigEye0 from './images/bigEye0.png';
 import img_bigTail0 from './images/bigTail0.png';
 
-
 window.requestAnimFrame = (function() {
   return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
     function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
