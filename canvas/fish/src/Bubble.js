@@ -20,7 +20,6 @@ class Bubble {
     this.y = this.ctx.canvas.height - this.bubblePointList[INDEX].y;
     this.speed = Math.random() * 0.04 + 0.02;
     this.img.src = [img_blue, img_fruit][Math.round(Math.random())];
-    this.draw();
   }
 
   draw() {

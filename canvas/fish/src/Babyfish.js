@@ -1,20 +1,20 @@
-import img_body from "./images/big.png";
-import img_tail from "./images/bigTail0.png";
-import img_eye from "./images/bigEye0.png";
+import img_body from "./images/babyFade0.png";
+import img_tail from "./images/babyTail0.png";
+import img_eye from "./images/babyEye0.png";
 
-class Fish {
+class Babyfish {
   constructor({x = 0, y = 0, ctx}) {
     this.x = x;
     this.y = y;
     this.img_body = new Image();
     this.img_tail = new Image();
     this.img_eye = new Image();
-    this.tail_width = 20;
-    this.tail_height = 25;
-    this.eye_width = 5;
-    this.eye_height = 5;
-    this.width = 30;
-    this.height = 34;
+    this.tail_width = 12;
+    this.tail_height = 15;
+    this.eye_width = 3;
+    this.eye_height = 3;
+    this.width = 22;
+    this.height = 24;
     this.ctx = ctx;
     this.angle = 0;
   }
@@ -30,11 +30,11 @@ class Fish {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(angle);
-    ctx.drawImage(img_tail, -tail_width / 2 + 18, -tail_height / 2, tail_width, tail_height);
-    ctx.drawImage(img_eye, -eye_width / 2, -eye_height / 2, eye_width, eye_height);
+    ctx.drawImage(img_tail, -tail_width / 2 + 12, -tail_height / 2, tail_width, tail_height);
     ctx.drawImage(img_body, -this.width / 2, -this.height / 2, width, height);
+    ctx.drawImage(img_eye, -eye_width / 2, -eye_height / 2, eye_width, eye_height);
     ctx.restore();
   }
 }
 
-export default Fish;
+export default Babyfish;
