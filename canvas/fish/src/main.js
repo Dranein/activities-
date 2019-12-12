@@ -8,6 +8,12 @@ import img_big from './images/big.png';
 import img_bigEye0 from './images/bigEye0.png';
 import img_bigTail0 from './images/bigTail0.png';
 
+
+let img_bigTailList = [];
+for (let i = 0; i < 7; i++) {
+  img_bigTailList.push(require('./images/bigTail' + i + '.png').default);
+}
+
 window.requestAnimFrame = (function() {
   return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
     function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
@@ -22,7 +28,8 @@ window.onload = () => {
       img_bigEye0,
       img_bigTail0,
       img_blue,
-      img_fruit
+      img_fruit,
+      ...img_bigTailList
     ],
     progressCallback: progress => {
 
