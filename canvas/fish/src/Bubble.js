@@ -9,30 +9,41 @@ class Bubble {
     this.img = new Image();
     this.speed = 0.05;
     this.bubblePointList = bubblePointList;
+    this.bubbleIndex = 0;
   }
 
   init() {
-    this.alive = true;
     this.curWidth = 0;
     this.curHeight = 0;
-    const INDEX = Math.round(Math.random() * (this.bubblePointList.length - 4)) + 2;
-    this.x = this.bubblePointList[INDEX].x;
-    this.y = this.ctx.canvas.height - this.bubblePointList[INDEX].y;
-    this.speed = Math.random() * 0.04 + 0.02;
-    this.img.src = [img_blue, img_fruit][Math.round(Math.random())];
+    this.bubbleIndex = Math.round(Math.random() * (this.bubblePointList.length - 4)) + 2;
+    this.speed = Math.random() * 0.1 + 0.06;
+    this.img.src = [img_fruit, img_blue][Math.round(Math.random())];
+    this.alive = true;
   }
 
   draw() {
     let {x, y, ctx, curHeight, curWidth, img, alive} = this;
-    if (!alive) this.init();
+    if (!alive) {
+      this.init();
+      return false;
+    }
     if (this.curWidth < this.width) {
-      this.curWidth += (0.12 * this.speed) * window.gapTime;
-      this.curHeight += (0.12 * this.speed) * window.gapTime;
+      this.growing();
     } else {
       this.y -= this.speed * window.gapTime;
-      if (this.y < 0) this.init();
+      if (this.y < 0) {
+        this.init();
+        return false;
+      }
     }
-    ctx.drawImage(img, x - curWidth * 0.5, y - curHeight * 0.5, curWidth, curHeight);
+    ctx.drawImage(img, this.x - curWidth * 0.5, this.y - curHeight * 0.5, curWidth, curHeight);
+  }
+
+  growing() {
+    this.curWidth += (0.08 * this.speed) * window.gapTime;
+    this.curHeight += (0.08 * this.speed) * window.gapTime;
+    this.x = this.bubblePointList[this.bubbleIndex].x;
+    this.y = this.bubblePointList[this.bubbleIndex].y;
   }
 }
 

@@ -22,9 +22,9 @@ class Canvas {
     this.content2 = this.el2.getContext('2d');
 
     this.kelpList = [];
-    this.kelpNum = 50;
+    this.kelpNum = 60;
     this.bubbleList = [];
-    this.bubbleNum = 15;
+    this.bubbleNum = 20;
     this.bigFish = '';
     this.babyFish = '';
     this.init();
@@ -41,13 +41,13 @@ class Canvas {
 
   initKelp() {
     let {content1, kelpNum, kelpList, height} = this;
-    let gap = -10;
+    let gap = -50;
     for (let i = 0; i < kelpNum; i++) {
       let x = gap + (Math.random() * 1.2 + 0.3) * 15;
       let kelp = new Kelp({
         x,
         y: height,
-        height: 80 + Math.random() * 50,
+        height: 120 + Math.random() * 100,
         ctx: content1
       })
       gap = x;
@@ -102,14 +102,19 @@ class Canvas {
   }
 
   animate() {
-    this.kelpList.forEach(item => item.draw());
+    let bubblePointList = [];
+    this.kelpList.forEach(item => {
+      item.draw()
+      bubblePointList.push({
+        x: item.quadraticEndX,
+        y: item.quadraticEndY
+      })
+    });
 
     this.bubbleList.forEach(item => {
+      item.bubblePointList = bubblePointList;
       item.draw();
-      if (item.alive) {
-        let gap = calLength2(item.x, item.y, this.bigFish.x, this.bigFish.y);
-        if (gap < 900) item.alive = false;
-      }
+      this.fishEatubble(item);
     });
 
     let babyBetaAngle = Math.atan2(this.babyFish.y - this.bigFish.y, this.babyFish.x - this.bigFish.x);
@@ -123,8 +128,13 @@ class Canvas {
     this.bigFish.x = lerpDistance(mouseX, this.bigFish.x, 0.9);
     this.bigFish.y = lerpDistance(mouseY, this.bigFish.y, 0.9);
     this.bigFish.draw();
+  }
 
-
+  fishEatubble(item) {
+    if (item.alive) {
+      let gap = calLength2(item.x, item.y, this.bigFish.x, this.bigFish.y);
+      if (gap < 900) item.alive = false;
+    }
   }
 
   addEvent() {
