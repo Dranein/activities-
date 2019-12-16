@@ -8,7 +8,7 @@ const config = {
   },
   module: {
     rules: [
-      { test: /\.(png|jpg|gif|svg)$/, use: ['file-loader'] },
+      { test: /\.(png|jpg|gif|svg)$/, use: [{loader: 'file-loader', options: { name: '[name].[ext]', outputPath: './img', publicPath: './img'}}]},
       { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']}
     ]
   },

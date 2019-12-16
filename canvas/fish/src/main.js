@@ -10,11 +10,18 @@ import img_bigTail0 from './images/bigTail0.png';
 
 let img_bigTailList = [];
 let img_bigBodyList = [];
+let img_bodyList = [];
+
 for (let i = 0; i < 7; i++) {
   img_bigTailList.push(require('./images/bigTail' + i + '.png').default);
 }
 for (let i = 0; i < 19; i++) {
   img_bigBodyList.push(require('./images/babyFade' + i + '.png').default);
+}
+
+for (let i = 0; i < 7; i++) {
+  img_bodyList.push(require('./images/bigSwim' + i + '.png').default);
+  img_bodyList.push(require('./images/bigSwimBlue' + i + '.png').default);
 }
 
 setRequestAnimFrame();
@@ -28,7 +35,8 @@ window.onload = () => {
       img_blue,
       img_fruit,
       ...img_bigTailList,
-      ...img_bigBodyList
+      ...img_bigBodyList,
+      ...img_bodyList
     ],
     progressCallback: progress => {
 

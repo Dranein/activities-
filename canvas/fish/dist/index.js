@@ -60,92 +60,50 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.p + "fe8b86005e2f60e33de6a0d3c36ebb8e.png");
+var map = {
+	"./bigTail0.png": 5,
+	"./bigTail1.png": 21,
+	"./bigTail2.png": 22,
+	"./bigTail3.png": 23,
+	"./bigTail4.png": 24,
+	"./bigTail5.png": 25,
+	"./bigTail6.png": 26,
+	"./bigTail7.png": 27
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 0;
 
 /***/ }),
 /* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.p + "daff51c36cafd94933d4909b0030b911.png");
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__commonFunctions__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Canvas__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_index_scss__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_index_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_index_scss__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__images_blue_png__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__images_fruit_png__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__images_big_png__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__images_bigEye0_png__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__images_bigTail0_png__ = __webpack_require__(13);
-
-
-
-
-
-
-
-
-
-
-
-window.requestAnimFrame = (function() {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-      return window.setTimeout(callback, 1000 / 60);
-    };
-})();
-
-window.onload = () => {
-  Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["a" /* imgPreLoad */])({
-    imgList: [
-      __WEBPACK_IMPORTED_MODULE_5__images_big_png__["a" /* default */],
-      __WEBPACK_IMPORTED_MODULE_6__images_bigEye0_png__["a" /* default */],
-      __WEBPACK_IMPORTED_MODULE_7__images_bigTail0_png__["a" /* default */],
-      __WEBPACK_IMPORTED_MODULE_3__images_blue_png__["a" /* default */],
-      __WEBPACK_IMPORTED_MODULE_4__images_fruit_png__["a" /* default */]
-    ],
-    progressCallback: progress => {
-      console.log(progress);
-    },
-    sucessCallback: () => {
-      let canvas1 = document.getElementById('canvas1');
-      let canvas2 = document.getElementById('canvas2');
-      this.canvas = new __WEBPACK_IMPORTED_MODULE_1__Canvas__["a" /* default */]({
-        el1: canvas1,
-        el2: canvas2,
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
-    }
-  });
-}
-
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return imgPreLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return imgPreLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setRequestAnimFrame; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return calLength2; });
 /* unused harmony export randomColor */
-/* unused harmony export lerpAngle */
-/* unused harmony export lerpDistance */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return lerpAngle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return lerpDistance; });
 /* unused harmony export inOboundary */
 /* unused harmony export rgbColor */
 /* unused harmony export rgbNum */
@@ -155,9 +113,22 @@ window.onload = () => {
 /* unused harmony export AABBbox */
 /* unused harmony export dis2 */
 /* unused harmony export rndi2 */
+function setRequestAnimFrame() {
+	window.requestAnimFrame = (function() {
+		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+			function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+				return window.setTimeout(callback, 1000 / 60);
+			};
+	})();
+}
+
 function imgPreLoad({imgList, progressCallback, sucessCallback}) {
 	const len = imgList.length;
 	let num = 0;
+	if (imgList.length < 0) {
+		sucessCallback && sucessCallback();
+		return false;
+	}
 	for(let i = 0; i < len; i++){
 		let imgSrc = imgList[i];
 		let img = new Image();
@@ -172,8 +143,23 @@ function imgPreLoad({imgList, progressCallback, sucessCallback}) {
 	}
 }
 
+// 求两个坐标点的距离，结果为平方值；
 function calLength2(x1, y1, x2, y2) {
 	return Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+}
+
+// 角度趋向
+function lerpAngle(a, b, t) {
+	var d = b - a;
+	if (d > Math.PI) d = d - 2 * Math.PI;
+	if (d < -Math.PI) d = d + 2 * Math.PI;
+	return a + d * t;
+}
+
+// 距离趋向
+function lerpDistance(aim, cur, ratio) {
+	var delta = cur - aim;
+	return aim + delta * ratio;
 }
 
 function randomColor() {
@@ -187,18 +173,6 @@ function randomColor() {
 	var num = Math.floor(Math.random() * 3);
 	col[num] = 0;
 	return "rgba(" + col[0] + "," + col[1] + "," + col[2] + ",";
-}
-
-function lerpAngle(a, b, t) {
-	var d = b - a;
-	if (d > Math.PI) d = d - 2 * Math.PI;
-	if (d < -Math.PI) d = d + 2 * Math.PI;
-	return a + d * t;
-}
-
-function lerpDistance(aim, cur, ratio) {
-	var delta = cur - aim;
-	return aim + delta * ratio;
 }
 
 function inOboundary(arrX, arrY, l, r, t, b) { //在l r t b范围内的检测
@@ -279,73 +253,293 @@ function rndi2(m, n) {
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ("./img/blue.png");
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ("./img/fruit.png");
+
+/***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__images_blue_png__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__images_fruit_png__ = __webpack_require__(1);
-let preTime = new Date();
-let gapTime = 0;
+/* harmony default export */ __webpack_exports__["a"] = ("./img/big.png");
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail0.png");
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigEye0.png");
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue0.png");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue1.png");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue2.png");
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue3.png");
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue4.png");
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue5.png");
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue6.png");
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwimBlue7.png");
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./babyFade0.png": 41,
+	"./babyFade1.png": 42,
+	"./babyFade10.png": 43,
+	"./babyFade11.png": 44,
+	"./babyFade12.png": 45,
+	"./babyFade13.png": 46,
+	"./babyFade14.png": 47,
+	"./babyFade15.png": 48,
+	"./babyFade16.png": 49,
+	"./babyFade17.png": 50,
+	"./babyFade18.png": 51,
+	"./babyFade19.png": 52,
+	"./babyFade2.png": 53,
+	"./babyFade3.png": 54,
+	"./babyFade4.png": 55,
+	"./babyFade5.png": 56,
+	"./babyFade6.png": 57,
+	"./babyFade7.png": 58,
+	"./babyFade8.png": 59,
+	"./babyFade9.png": 60
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 15;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__commonFunctions__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Canvas__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_index_scss__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_index_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_index_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__images_blue_png__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__images_fruit_png__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__images_big_png__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__images_bigEye0_png__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__images_bigTail0_png__ = __webpack_require__(5);
 
 
+
+
+
+
+
+
+
+
+let img_bigTailList = [];
+let img_bigBodyList = [];
+for (let i = 0; i < 7; i++) {
+  img_bigTailList.push(__webpack_require__(0)("./bigTail" + i + '.png').default);
+}
+for (let i = 0; i < 19; i++) {
+  img_bigBodyList.push(__webpack_require__(15)("./babyFade" + i + '.png').default);
+}
+
+Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["e" /* setRequestAnimFrame */])();
+
+window.onload = () => {
+  Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["b" /* imgPreLoad */])({
+    imgList: [
+      __WEBPACK_IMPORTED_MODULE_5__images_big_png__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_6__images_bigEye0_png__["default"],
+      __WEBPACK_IMPORTED_MODULE_7__images_bigTail0_png__["default"],
+      __WEBPACK_IMPORTED_MODULE_3__images_blue_png__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_4__images_fruit_png__["a" /* default */],
+      ...img_bigTailList,
+      ...img_bigBodyList
+    ],
+    progressCallback: progress => {
+
+    },
+    sucessCallback: () => {
+      rederCanvas();
+    }
+  });
+}
+
+function rederCanvas () {
+  let canvas1 = document.getElementById('canvas1');
+  let gameoverDom = document.getElementById('gameover');
+  let startDom = document.getElementById('start');
+  let scoreDomList = document.getElementsByClassName('score');
+  let parentNode = canvas1.parentNode;
+  let canvasObj = new __WEBPACK_IMPORTED_MODULE_1__Canvas__["a" /* default */]({
+    el1: canvas1,
+    width: parentNode.offsetWidth,
+    height: parentNode.offsetHeight,
+    scoreFn: score => {
+      if (scoreDomList && scoreDomList.length > 0) {
+        for (let i = 0; i < scoreDomList.length; i++) {
+          scoreDomList[i].innerHTML = score;
+        }
+      }
+    },
+    gameOverFn: score => {
+      gameoverDom.classList.remove("hide");
+    }
+  })
+  startDom.onclick = () => {
+    startDom.parentNode.classList.add("hide");
+    canvasObj.init();
+  }
+}
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__commonFunctions__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bubble__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Kelp__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Fish__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Babyfish__ = __webpack_require__(40);
+window.preTime = new Date();
+window.gapTime = 0;
+
+
+
+
+
+
+
+let mouseX = 0;
+let mouseY = 0;
 
 class Canvas {
-  constructor({el1, el2, width, height}) {
+  constructor({el1, width, height, scoreFn, gameOverFn}) {
     this.el1 = el1;
-    this.el2 = el2;
     this.width = width;
     this.height = height;
-    this.el1.width = this.el2.width = this.width;
-    this.el1.height = this.el2.height = this.height;
+    this.el1.width  = this.width;
+    this.el1.height  = this.height;
     this.content1 = this.el1.getContext('2d');
-    this.content2 = this.el2.getContext('2d');
+    this.score = 0;
+    this.scoreFn = scoreFn;
+    this.gameOverFn = gameOverFn;
+
     this.kelpList = [];
-    this.kelpNum = 50;
+    this.kelpNum = 60;
     this.bubbleList = [];
-    this.bubbleNum = 15;
-    this.bubbleImg1 = new Image();
-    this.bubbleImg2 = new Image();
-    this.bubbleImg1.src = __WEBPACK_IMPORTED_MODULE_0__images_blue_png__["a" /* default */];
-    this.bubbleImg2.src = __WEBPACK_IMPORTED_MODULE_1__images_fruit_png__["a" /* default */];
-    this.init();
+    this.bubbleNum = 20;
+    this.bigFish = '';
+    this.babyFish = '';
+    this.isGameOver = false;
   }
 
   init() {
     this.initKelp();
-    this.addBubble();
-    this.loop();
-  }
-
-  loop() {
-    this.content1.clearRect(0, 0, this.width, this.height);
-    gapTime = new Date() - preTime;
-    preTime = new Date();
-    this.animate();
-    window.requestAnimationFrame(this.loop.bind(this));
-  }
-
-  animate() {
-    this.kelpList.forEach(item => item.draw());
-    this.bubbleList.forEach(item => {
-      if (item.y > this.height) {
-        item.alive = false;
-      }
-      item.growUp();
-      item.draw();
-    });
-    this.addBubble();
+    this.initBubble();
+    this.initFish();
+    this.initBabyFish();
+    this.gameloop();
+    this.addEvent();
   }
 
   initKelp() {
     let {content1, kelpNum, kelpList, height} = this;
-    let gap = -10;
+    let gap = -50;
     for (let i = 0; i < kelpNum; i++) {
       let x = gap + (Math.random() * 1.2 + 0.3) * 15;
-      let kelp = new Kelp({
+      let kelp = new __WEBPACK_IMPORTED_MODULE_2__Kelp__["a" /* default */]({
         x,
         y: height,
-        height: 80 + Math.random() * 50,
+        height: 120 + Math.random() * 100,
         ctx: content1
       })
       gap = x;
@@ -354,34 +548,199 @@ class Canvas {
     }
   }
 
-  addBubble() {
-    let {content1, bubbleNum, bubbleList, kelpList} = this;
-    bubbleList = bubbleList.filter(item => item.alive);
-    let poinArr = kelpList.map(item => {
-      return {
-        x: item.x,
-        y: item.height
-      }
+  initBubble() {
+    let {content1, bubbleNum, kelpList} = this;
+    let bubblePointList = kelpList.map(item => ({
+      x: item.x,
+      y: item.height
+    }));
+    for (let i = 0; i < bubbleNum; i++) {
+      let bubble = new __WEBPACK_IMPORTED_MODULE_1__Bubble__["a" /* default */]({
+        bubblePointList,
+        ctx: content1
+      })
+      this.bubbleList.push(bubble);
+      bubble.init();
+    }
+  }
+
+  initFish() {
+    this.bigFish = new __WEBPACK_IMPORTED_MODULE_3__Fish__["a" /* default */]({
+      x: this.width / 2,
+      y: this.height / 2,
+      ctx: this.content1
+    })
+    mouseX = this.width / 2;
+    mouseY = this.height / 2;
+    this.bigFish.init();
+  }
+
+  initBabyFish() {
+    this.babyFish = new __WEBPACK_IMPORTED_MODULE_4__Babyfish__["a" /* default */]({
+      x: this.width / 2 + 50,
+      y: this.height / 2 + 50,
+      ctx: this.content1
+    })
+    this.babyFish.init();
+  }
+
+  gameloop() {
+    this.content1.clearRect(0, 0, this.width, this.height);
+    window.gapTime = new Date() - window.preTime;
+    if (window.gapTime > 40) window.gapTime = 40;
+    window.preTime = new Date();
+    this.animate();
+    window.requestAnimationFrame(this.gameloop.bind(this));
+  }
+
+  animate() {
+    let bubblePointList = [];
+    this.kelpList.forEach(item => {
+      item.draw()
+      bubblePointList.push({
+        x: item.quadraticEndX,
+        y: item.quadraticEndY
+      })
     });
-    if (bubbleList.length < bubbleNum) {
-      let len = bubbleNum - bubbleList.length;
-      for (let i = 0; i < len; i++) {
-        const INDEX = Math.round(Math.random() * (this.kelpNum - 4)) + 2;
-        let bubble = new Bubble({
-          img: [this.bubbleImg1, this.bubbleImg2][Math.round(Math.random())],
-          x: poinArr[INDEX].x,
-          y: poinArr[INDEX].y,
-          speed: Math.random() * 0.04 + 0.02,
-          ctx: content1
-        })
-        bubbleList.push(bubble);
-        bubble.draw();
+
+    this.bubbleList.forEach(item => {
+      item.bubblePointList = bubblePointList;
+      item.draw();
+      this.fishEatubble(item);
+    });
+
+    let babyBetaAngle = Math.atan2(this.babyFish.y - this.bigFish.y, this.babyFish.x - this.bigFish.x);
+    this.babyFish.angle = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["c" /* lerpAngle */])(babyBetaAngle, this.babyFish.angle, 0.8);
+    this.babyFish.x = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["d" /* lerpDistance */])(this.bigFish.x, this.babyFish.x, 0.98);
+    this.babyFish.y = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["d" /* lerpDistance */])(this.bigFish.y, this.babyFish.y, 0.98);
+    this.babyFish.draw();
+
+    let betaAngle = Math.atan2(this.bigFish.y - mouseY, this.bigFish.x - mouseX);
+    this.bigFish.angle = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["c" /* lerpAngle */])(betaAngle, this.bigFish.angle, 0.6);
+    this.bigFish.x = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["d" /* lerpDistance */])(mouseX, this.bigFish.x, 0.9);
+    this.bigFish.y = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["d" /* lerpDistance */])(mouseY, this.bigFish.y, 0.9);
+    this.bigFish.draw();
+
+    if (this.isGameOver) return;
+    if (!this.babyFish.alive) {
+      this.isGameOver = true;
+      this.el1.removeEventListener ('mousemove', this.handleMousemove, false);
+      this.el1.removeEventListener ('touchmove', this.handleTouchmove, false);
+      this.gameOverFn && this.gameOverFn(this.score);
+      return false;
+    }
+    this.fishFeed();
+  }
+
+  // 鱼吃东西
+  fishEatubble(item) {
+    if (item.alive) {
+      let gap = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["a" /* calLength2 */])(item.x, item.y, this.bigFish.x, this.bigFish.y);
+      if (gap < 900) {
+        this.bigFish.eatFood(item.type);
+        item.die();
+        item.init();
       }
     }
-    this.bubbleList = bubbleList;
+  }
+
+  fishFeed() {
+    if (this.bigFish.foodNumber > 0) {
+      let gap = Object(__WEBPACK_IMPORTED_MODULE_0__commonFunctions__["a" /* calLength2 */])(this.babyFish.x, this.babyFish.y, this.bigFish.x, this.bigFish.y);
+      if (gap < 900) {
+        this.babyFish.eatFood();
+        this.score += parseInt(this.bigFish.foodType === 1 ? 200 : 100) * this.bigFish.foodNumber;
+        this.scoreFn && this.scoreFn(this.score);
+        this.bigFish.foodNumber = 0;
+      }
+    }
+  }
+
+  addEvent() {
+    this.el1.addEventListener('mousemove', this.handleMousemove, false);
+    this.el1.addEventListener('touchmove', this.handleTouchmove, false);
+  }
+
+  handleMousemove(e) {
+    mouseX = e.offsetX;
+    mouseY = e.offsetY;
+  }
+
+  handleTouchmove(e) {
+    mouseX = e.touches[0].pageX;
+    mouseY = e.touches[0].pageY;
   }
 }
 
+/* harmony default export */ __webpack_exports__["a"] = (Canvas);
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__images_blue_png__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__images_fruit_png__ = __webpack_require__(3);
+
+
+
+class Bubble {
+  constructor({bubblePointList, ctx}) {
+    this.width = 10;
+    this.height = 10;
+    this.ctx = ctx;
+    this.img = new Image();
+    this.speed = 0.05;
+    this.bubblePointList = bubblePointList;
+    this.bubbleIndex = 0;
+    this.type = 0;
+  }
+
+  init() {
+    this.curWidth = 0;
+    this.curHeight = 0;
+    this.bubbleIndex = Math.round(Math.random() * (this.bubblePointList.length - 4)) + 2;
+    this.speed = Math.random() * 0.1 + 0.06;
+    this.type = Math.round(Math.random());
+    this.img.src = [__WEBPACK_IMPORTED_MODULE_1__images_fruit_png__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0__images_blue_png__["a" /* default */]][this.type];
+    this.alive = true;
+  }
+
+  draw() {
+    let {y, ctx, curHeight, curWidth, img} = this;
+    if (this.curWidth < this.width) {
+      this.growing();
+    } else {
+      this.y -= this.speed * window.gapTime;
+      if (y < 0) {
+        this.init();
+        return false;
+      }
+    }
+    ctx.drawImage(img, this.x - curWidth * 0.5, this.y - curHeight * 0.5, curWidth, curHeight);
+  }
+
+  die() {
+    this.alive = false;
+    this.curWidth = 0;
+    this.curHeight = 0;
+  }
+
+  growing() {
+    this.curWidth += (0.08 * this.speed) * window.gapTime;
+    this.curHeight += (0.08 * this.speed) * window.gapTime;
+    this.x = this.bubblePointList[this.bubbleIndex].x;
+    this.y = this.bubblePointList[this.bubbleIndex].y;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Bubble);
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 class Kelp {
   constructor({x, y, height, width = 15, ctx}) {
     this.x = x;
@@ -389,64 +748,637 @@ class Kelp {
     this.width = width;
     this.height = height;
     this.ctx = ctx;
-    this.color = "#401c44";
+    this.color = '#37524b';
     this.alpha = 0.7;
+    this.deltaTime = 0;
+
+    this.quadraticEndX = 0;
+    this.quadraticEndY = 0;
   }
 
   draw() {
-    let {x, y, ctx, height, width, color, alpha} = this;
+    let {x, ctx, height, width, color, alpha} = this;
+    this.deltaTime += 0.01;
+    let sin = Math.sin(this.deltaTime);
+    this.quadraticEndX = x + sin * 70;
+    this.quadraticEndY = (ctx.canvas.height - height) + Math.abs(sin * 8);
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.beginPath();
     ctx.lineWidth = width;
     ctx.strokeStyle = color;
     ctx.lineCap = "round";
+    ctx.beginPath();
     ctx.moveTo(x, ctx.canvas.height);
-    ctx.lineTo(x, ctx.canvas.height - height);
+    ctx.quadraticCurveTo(x, (ctx.canvas.height - height) * 1.18, this.quadraticEndX, this.quadraticEndY);
     ctx.stroke(); // 进行绘制
     ctx.closePath();
     ctx.restore();
   }
 }
 
-class Bubble {
-  constructor({img, x, y, width = 10, height = 10, alive = true, speed = 0.05, ctx}) {
+/* harmony default export */ __webpack_exports__["a"] = (Kelp);
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__images_big_png__ = __webpack_require__(4);
+
+
+class Fish {
+  constructor({x = 0, y = 0, ctx}) {
     this.x = x;
     this.y = y;
-    this.curWidth = 0;
-    this.curHeight = 0;
-    this.width = width;
-    this.height = height;
-    this.alive = alive;
+    this.tail_width = 20;
+    this.tail_height = 25;
+    this.eye_width = 7;
+    this.eye_height = 7;
+    this.width = 30;
+    this.height = 34;
     this.ctx = ctx;
-    this.img = img;
-    this.speed = speed;
+    this.angle = 0;
+    this.foodType = 0;
+    this.foodNumber = 0;
+  }
+
+  init() {
+    this.img_tailList = [];
+    for (let i = 0; i < 7; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(0)("./bigTail" + i + '.png').default;
+      this.img_tailList.push(img);
+    }
+
+    this.img_eyeList = [];
+    for (let i = 0; i < 2; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(28)("./bigEye" + i + '.png').default;
+      this.img_eyeList.push(img);
+    }
+
+    let imgBody = new Image();
+    imgBody.src = __WEBPACK_IMPORTED_MODULE_0__images_big_png__["a" /* default */];
+    this.img_bodyType1List = [imgBody];
+    this.img_bodyType2List = [imgBody];
+    for (let i = 0; i < 7; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(30)("./bigSwim" + i + '.png').default;
+      this.img_bodyType1List.push(img);
+    }
+    for (let i = 0; i < 7; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(39)("./bigSwimBlue" + i + '.png').default;
+      this.img_bodyType2List.push(img);
+    }
+    this.img_bodyList = this.img_bodyType1List;
+
+    this.curTimeset = 0;
+    this.curTail = 0;
+    this.curEye = 0;
   }
 
   draw() {
-    let {x, y, ctx, curHeight, curWidth, img} = this;
-    ctx.drawImage(img, x - curWidth * 0.5, (ctx.canvas.height - y) - curHeight * 0.5, curWidth, curHeight);
+    let {x, y, width, height, ctx, angle, foodNumber, img_bodyList, img_tailList, curTail, curEye, tail_width, tail_height, img_eyeList, eye_width, eye_height} = this;
+    this.curTimeset += window.gapTime;
+    if (this.curTimeset % 100 > 60) {
+      this.curTail = (curTail + 1) % 7;
+    }
+    this.curEye = this.curTimeset % 3000 < 200 ? 1 : 0;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.drawImage(img_tailList[curTail], -tail_width / 2 + 18, -tail_height / 2, tail_width, tail_height);
+    ctx.drawImage(img_bodyList[foodNumber], -width / 2, -height / 2, width, height);
+    ctx.drawImage(img_eyeList[curEye], -eye_width / 2, -eye_height / 2, eye_width, eye_height);
+    ctx.restore();
   }
 
-  growUp() {
-    let {y, curHeight, curWidth, width, height} = this;
-    if (curWidth < width) {
-      this.curWidth += 0.02 * gapTime;
-      this.curHeight += 0.02 * gapTime;
-    } else {
-      this.y += this.speed * gapTime;
+  eatFood (type) {
+    this.foodNumber ++;
+    this.foodType = type;
+    if (this.foodNumber > 7) {
+      this.foodNumber = 7;
     }
-
+    if (this.foodType === 1) {
+      this.img_bodyList = this.img_bodyType2List;
+    } else {
+      this.img_bodyList = this.img_bodyType1List;
+    }
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Canvas);
+/* harmony default export */ __webpack_exports__["a"] = (Fish);
 
 /***/ }),
-/* 5 */
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail1.png");
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail2.png");
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail3.png");
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail4.png");
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail5.png");
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail6.png");
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigTail7.png");
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var content = __webpack_require__(6);
+var map = {
+	"./bigEye0.png": 6,
+	"./bigEye1.png": 29
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 28;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigEye1.png");
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./bigSwim0.png": 31,
+	"./bigSwim1.png": 32,
+	"./bigSwim2.png": 33,
+	"./bigSwim3.png": 34,
+	"./bigSwim4.png": 35,
+	"./bigSwim5.png": 36,
+	"./bigSwim6.png": 37,
+	"./bigSwim7.png": 38,
+	"./bigSwimBlue0.png": 7,
+	"./bigSwimBlue1.png": 8,
+	"./bigSwimBlue2.png": 9,
+	"./bigSwimBlue3.png": 10,
+	"./bigSwimBlue4.png": 11,
+	"./bigSwimBlue5.png": 12,
+	"./bigSwimBlue6.png": 13,
+	"./bigSwimBlue7.png": 14
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 30;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim0.png");
+
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim1.png");
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim2.png");
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim3.png");
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim4.png");
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim5.png");
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim6.png");
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/bigSwim7.png");
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./bigSwimBlue0.png": 7,
+	"./bigSwimBlue1.png": 8,
+	"./bigSwimBlue2.png": 9,
+	"./bigSwimBlue3.png": 10,
+	"./bigSwimBlue4.png": 11,
+	"./bigSwimBlue5.png": 12,
+	"./bigSwimBlue6.png": 13,
+	"./bigSwimBlue7.png": 14
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 39;
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Babyfish {
+  constructor({x = 0, y = 0, ctx}) {
+    this.x = x;
+    this.y = y;
+    this.tail_width = 12;
+    this.tail_height = 15;
+    this.eye_width = 5;
+    this.eye_height = 5;
+    this.width = 22;
+    this.height = 24;
+    this.ctx = ctx;
+    this.angle = 0;
+    this.alive = true;
+  }
+
+  init() {
+    this.img_bodyList = [];
+    this.curBody = 0;
+    this.timeGap_body = 0;
+    for (let i = 0; i < 19; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(15)("./babyFade" + i + '.png').default;
+      this.img_bodyList.push(img);
+    }
+
+    this.img_tailList = [];
+    this.curBigTail = 0;
+    for (let i = 0; i < 7; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(0)("./bigTail" + i + '.png').default;
+      this.img_tailList.push(img);
+    }
+
+    this.img_eyeList = [];
+    this.curTimeset = 0;
+    this.curEye = 0;
+    for (let i = 0; i < 2; i++) {
+      let img = new Image();
+      img.src = __webpack_require__(61)("./babyEye" + i + '.png').default;
+      this.img_eyeList.push(img);
+    }
+  }
+
+  draw() {
+    let {x, y, width, height, ctx, angle, img_bodyList, curBody, img_tailList, curBigTail, curEye, tail_width, tail_height, img_eyeList, eye_width, eye_height} = this;
+    this.curTimeset += window.gapTime;
+    if (this.curTimeset % 100 > 60) {
+      this.curBigTail = (this.curBigTail + 1) % 7;
+    }
+
+    this.curEye = this.curTimeset % 4000 > 3700 ? 1 : 0;
+
+    this.timeGap_body += window.gapTime;
+    if (this.timeGap_body > 300) {
+      if (this.curBody >= img_bodyList.length - 1) {
+        this.curBody = img_bodyList.length - 1;
+        this.alive = false;
+      } else {
+        this.curBody = (this.curBody + 1) % img_bodyList.length;
+      }
+      this.timeGap_body %= 300;
+    }
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.drawImage(img_tailList[curBigTail], -tail_width / 2 + 12, -tail_height / 2, tail_width, tail_height);
+    ctx.drawImage(img_bodyList[curBody], -width / 2, -height / 2, width, height);
+    ctx.drawImage(img_eyeList[curEye], -eye_width / 2, -eye_height / 2, eye_width, eye_height);
+    ctx.restore();
+  }
+
+  eatFood() {
+    this.curBody = 0;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Babyfish);
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade0.png");
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade1.png");
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade10.png");
+
+/***/ }),
+/* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade11.png");
+
+/***/ }),
+/* 45 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade12.png");
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade13.png");
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade14.png");
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade15.png");
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade16.png");
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade17.png");
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade18.png");
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade19.png");
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade2.png");
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade3.png");
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade4.png");
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade5.png");
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade6.png");
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade7.png");
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade8.png");
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyFade9.png");
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./babyEye0.png": 62,
+	"./babyEye1.png": 63
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 61;
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyEye0.png");
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/babyEye1.png");
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var content = __webpack_require__(65);
 
 if (typeof content === 'string') {
   content = [[module.i, content, '']];
@@ -457,7 +1389,7 @@ var options = {}
 options.insert = "head";
 options.singleton = false;
 
-var update = __webpack_require__(10)(content, options);
+var update = __webpack_require__(70)(content, options);
 
 if (content.locals) {
   module.exports = content.locals;
@@ -465,20 +1397,22 @@ if (content.locals) {
 
 
 /***/ }),
-/* 6 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(false);
+exports = module.exports = __webpack_require__(66)(false);
 // Imports
-var ___CSS_LOADER_GET_URL_IMPORT___ = __webpack_require__(8);
-var ___CSS_LOADER_URL_PURE_IMPORT_0___ = __webpack_require__(9);
+var ___CSS_LOADER_GET_URL_IMPORT___ = __webpack_require__(67);
+var ___CSS_LOADER_URL_PURE_IMPORT_0___ = __webpack_require__(68);
+var ___CSS_LOADER_URL_PURE_IMPORT_1___ = __webpack_require__(69);
 var ___CSS_LOADER_URL_IMPORT_0___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_LOADER_URL_PURE_IMPORT_0___);
+var ___CSS_LOADER_URL_IMPORT_1___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_LOADER_URL_PURE_IMPORT_1___);
 // Module
-exports.push([module.i, "body,html{padding:0;margin:0}.wrapper{font-size:0;position:relative;height:100vh;overflow:hidden}.wrapper_bg{position:absolute;left:0;right:0;bottom:0;top:0;background:url(" + ___CSS_LOADER_URL_IMPORT_0___ + ") no-repeat center;background-size:cover}#canvas1{position:absolute;left:0;top:0;z-index:10}#canvas2{position:absolute;left:0;top:0;z-index:20}\n", ""]);
+exports.push([module.i, "body,html{padding:0;margin:0}.wrapper{font-size:0;position:relative;height:100vh;overflow:hidden;max-width:665px;margin:0 auto;background:url(" + ___CSS_LOADER_URL_IMPORT_0___ + ") no-repeat center;background-size:cover}.wrapper_bg{position:absolute;left:0;right:0;bottom:0;top:0;background-size:cover}#canvas1{position:absolute;left:0;top:0;z-index:20}#gameover{position:absolute;z-index:100;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);font-size:30px;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column}#gameover.hide{display:none}.gameFooter{position:absolute;z-index:50;left:10px;bottom:10px;font-size:16px;color:#fff}.gameStart{position:absolute;z-index:100;top:0;left:0;right:0;bottom:0;background:url(" + ___CSS_LOADER_URL_IMPORT_1___ + ") no-repeat center;background-size:cover}.gameStart_btn{position:absolute;bottom:20%;left:50%;font-size:20px;background:#fff;color:#d42e2e;font-weight:bold;padding:10px 30px;border-radius:5px;transform:translateX(-50%);box-shadow:0 0 8px rgba(41,18,18,0.5)}.gameStart.hide{display:none}\n", ""]);
 
 
 /***/ }),
-/* 7 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -574,7 +1508,7 @@ function toComment(sourceMap) {
 }
 
 /***/ }),
-/* 8 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -614,15 +1548,23 @@ module.exports = function (url, options) {
 };
 
 /***/ }),
-/* 9 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "1ed76daad915d2ede7428cf0b175a290.jpg");
+/* harmony default export */ __webpack_exports__["default"] = ("./img/background2.jpg");
 
 /***/ }),
-/* 10 */
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("./img/cover.png");
+
+/***/ }),
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -908,27 +1850,6 @@ module.exports = function (list, options) {
     }
   };
 };
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.p + "a60f2b68424f0a86e36d1dab83084c33.png");
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.p + "310a3754282cba6089eb8157fe007276.png");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.p + "cc3c4961870e9041b361bdb7d39afa59.png");
 
 /***/ })
 /******/ ]);
