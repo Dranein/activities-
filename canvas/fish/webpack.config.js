@@ -1,4 +1,5 @@
-let HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
   entry: './src/main.js',
@@ -8,15 +9,29 @@ const config = {
   },
   module: {
     rules: [
-      { test: /\.(png|jpg|gif|svg)$/, use: [{loader: 'file-loader', options: { name: '[name].[ext]', outputPath: './img', publicPath: './img'}}]},
-      { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']}
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: '[name].[ext]',
+            outputPath: './img',
+            publicPath: './img'
+          }
+        }, {
+          loader: 'image-webpack-loader'
+        }]
+      },
+      {test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']}
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./index.html"
-    })
+    }),
+    new UglifyJsPlugin(),
   ]
 }
 
