@@ -4,8 +4,6 @@ class Fish {
   constructor({x = 0, y = 0, ctx}) {
     this.x = x;
     this.y = y;
-    this.img_body = new Image();
-    this.img_eye = new Image();
     this.tail_width = 20;
     this.tail_height = 25;
     this.eye_width = 7;
@@ -14,6 +12,8 @@ class Fish {
     this.height = 34;
     this.ctx = ctx;
     this.angle = 0;
+    this.foodType = 0;
+    this.foodNumber = 0;
   }
 
   init() {
@@ -31,27 +31,54 @@ class Fish {
       this.img_eyeList.push(img);
     }
 
+    let imgBody = new Image();
+    imgBody.src = img_body;
+    this.img_bodyType1List = [imgBody];
+    this.img_bodyType2List = [imgBody];
+    for (let i = 0; i < 7; i++) {
+      let img = new Image();
+      img.src = require('./images/bigSwim' + i + '.png').default;
+      this.img_bodyType1List.push(img);
+    }
+    for (let i = 0; i < 7; i++) {
+      let img = new Image();
+      img.src = require('./images/bigSwimBlue' + i + '.png').default;
+      this.img_bodyType2List.push(img);
+    }
+    this.img_bodyList = this.img_bodyType1List;
+
     this.curTimeset = 0;
     this.curTail = 0;
     this.curEye = 0;
-    this.img_body.src = img_body;
   }
 
   draw() {
-    let {x, y, width, height, ctx, angle, img_body, img_tailList, curTail, curEye, tail_width, tail_height, img_eyeList, eye_width, eye_height} = this;
+    let {x, y, width, height, ctx, angle, foodNumber, img_bodyList, img_tailList, curTail, curEye, tail_width, tail_height, img_eyeList, eye_width, eye_height} = this;
     this.curTimeset += window.gapTime;
     if (this.curTimeset % 100 > 60) {
       this.curTail = (curTail + 1) % 7;
     }
-
     this.curEye = this.curTimeset % 3000 < 200 ? 1 : 0;
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(angle);
     ctx.drawImage(img_tailList[curTail], -tail_width / 2 + 18, -tail_height / 2, tail_width, tail_height);
+    ctx.drawImage(img_bodyList[foodNumber], -width / 2, -height / 2, width, height);
     ctx.drawImage(img_eyeList[curEye], -eye_width / 2, -eye_height / 2, eye_width, eye_height);
-    ctx.drawImage(img_body, -width / 2, -height / 2, width, height);
     ctx.restore();
+  }
+
+  eatFood (type) {
+    this.foodNumber ++;
+    this.foodType = type;
+    if (this.foodNumber > 7) {
+      this.foodNumber = 7;
+    }
+    if (this.foodType === 1) {
+      this.img_bodyList = this.img_bodyType2List;
+    } else {
+      this.img_bodyList = this.img_bodyType1List;
+    }
   }
 }
 

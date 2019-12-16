@@ -26,9 +26,58 @@ body, html{
   top: 0;
   z-index: 20;
 }
-#canvas2 {
+
+#gameover {
   position: absolute;
-  left: 0;
+  z-index: 100;
   top: 0;
-  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 30px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  &.hide {
+    display: none;
+  }
+}
+
+.gameFooter {
+  position: absolute;
+  z-index: 50;
+  left: 10px;
+  bottom: 10px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.gameStart {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("../images/cover.png") no-repeat center;
+  background-size: cover;
+  &_btn {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    font-size: 20px;
+    background: #fff;
+    color: #d42e2e;
+    font-weight: bold;
+    padding: 10px 30px;
+    border-radius: 5px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px rgba(41, 18, 18, 0.5);
+  }
+  &.hide {
+    display: none;
+  }
 }

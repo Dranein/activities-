@@ -11,15 +11,16 @@ let mouseX = 0;
 let mouseY = 0;
 
 class Canvas {
-  constructor({el1, el2, width, height}) {
+  constructor({el1, width, height, scoreFn, gameOverFn}) {
     this.el1 = el1;
-    this.el2 = el2;
     this.width = width;
     this.height = height;
-    this.el1.width = this.el2.width = this.width;
-    this.el1.height = this.el2.height = this.height;
+    this.el1.width  = this.width;
+    this.el1.height  = this.height;
     this.content1 = this.el1.getContext('2d');
-    this.content2 = this.el2.getContext('2d');
+    this.score = 0;
+    this.scoreFn = scoreFn;
+    this.gameOverFn = gameOverFn;
 
     this.kelpList = [];
     this.kelpNum = 60;
@@ -27,7 +28,7 @@ class Canvas {
     this.bubbleNum = 20;
     this.bigFish = '';
     this.babyFish = '';
-    this.init();
+    this.isGameOver = false;
   }
 
   init() {
@@ -128,20 +129,55 @@ class Canvas {
     this.bigFish.x = lerpDistance(mouseX, this.bigFish.x, 0.9);
     this.bigFish.y = lerpDistance(mouseY, this.bigFish.y, 0.9);
     this.bigFish.draw();
+
+    if (this.isGameOver) return;
+    if (!this.babyFish.alive) {
+      this.isGameOver = true;
+      this.el1.removeEventListener ('mousemove', this.handleMousemove, false);
+      this.el1.removeEventListener ('touchmove', this.handleTouchmove, false);
+      this.gameOverFn && this.gameOverFn(this.score);
+      return false;
+    }
+    this.fishFeed();
   }
 
+  // 鱼吃东西
   fishEatubble(item) {
     if (item.alive) {
       let gap = calLength2(item.x, item.y, this.bigFish.x, this.bigFish.y);
-      if (gap < 900) item.alive = false;
+      if (gap < 900) {
+        this.bigFish.eatFood(item.type);
+        item.die();
+        item.init();
+      }
+    }
+  }
+
+  fishFeed() {
+    if (this.bigFish.foodNumber > 0) {
+      let gap = calLength2(this.babyFish.x, this.babyFish.y, this.bigFish.x, this.bigFish.y);
+      if (gap < 900) {
+        this.babyFish.eatFood();
+        this.score += parseInt(this.bigFish.foodType === 1 ? 200 : 100) * this.bigFish.foodNumber;
+        this.scoreFn && this.scoreFn(this.score);
+        this.bigFish.foodNumber = 0;
+      }
     }
   }
 
   addEvent() {
-    this.el1.addEventListener('mousemove', e => {
-      mouseX = e.offsetX;
-      mouseY = e.offsetY;
-    }, false)
+    this.el1.addEventListener('mousemove', this.handleMousemove, false);
+    this.el1.addEventListener('touchmove', this.handleTouchmove, false);
+  }
+
+  handleMousemove(e) {
+    mouseX = e.offsetX;
+    mouseY = e.offsetY;
+  }
+
+  handleTouchmove(e) {
+    mouseX = e.touches[0].pageX;
+    mouseY = e.touches[0].pageY;
   }
 }
 

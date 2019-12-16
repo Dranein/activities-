@@ -1,3 +1,12 @@
+function setRequestAnimFrame() {
+	window.requestAnimFrame = (function() {
+		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+			function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+				return window.setTimeout(callback, 1000 / 60);
+			};
+	})();
+}
+
 function imgPreLoad({imgList, progressCallback, sucessCallback}) {
 	const len = imgList.length;
 	let num = 0;
@@ -128,6 +137,7 @@ function rndi2(m, n) {
 
 export {
 	imgPreLoad,
+	setRequestAnimFrame,
 	calLength2,
 	randomColor,
 	lerpAngle,
