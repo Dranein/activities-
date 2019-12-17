@@ -17,7 +17,7 @@ class Bubble {
     this.curWidth = 0;
     this.curHeight = 0;
     this.bubbleIndex = Math.round(Math.random() * (this.bubblePointList.length - 4)) + 2;
-    this.speed = Math.random() * 0.1 + 0.06;
+    this.speed = Math.random() * 0.1 + 0.09;
     this.type = Math.round(Math.random());
     this.img.src = [img_fruit, img_blue][this.type];
     this.alive = true;

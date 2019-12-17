@@ -2,12 +2,12 @@ class Babyfish {
   constructor({x = 0, y = 0, ctx}) {
     this.x = x;
     this.y = y;
-    this.tail_width = 12;
-    this.tail_height = 15;
-    this.eye_width = 5;
-    this.eye_height = 5;
-    this.width = 22;
-    this.height = 24;
+    this.width = 30;
+    this.height = 34;
+    this.tail_width = 20;
+    this.tail_height = 22;
+    this.eye_width = 6;
+    this.eye_height = 6;
     this.ctx = ctx;
     this.angle = 0;
     this.alive = true;
@@ -51,20 +51,20 @@ class Babyfish {
     this.curEye = this.curTimeset % 4000 > 3700 ? 1 : 0;
 
     this.timeGap_body += window.gapTime;
-    if (this.timeGap_body > 300) {
+    if (this.timeGap_body > 200) {
       if (this.curBody >= img_bodyList.length - 1) {
         this.curBody = img_bodyList.length - 1;
         this.alive = false;
       } else {
         this.curBody = (this.curBody + 1) % img_bodyList.length;
       }
-      this.timeGap_body %= 300;
+      this.timeGap_body %= 200;
     }
 
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(angle);
-    ctx.drawImage(img_tailList[curBigTail], -tail_width / 2 + 12, -tail_height / 2, tail_width, tail_height);
+    ctx.drawImage(img_tailList[curBigTail], -tail_width / 2 + 16, -tail_height / 2, tail_width, tail_height);
     ctx.drawImage(img_bodyList[curBody], -width / 2, -height / 2, width, height);
     ctx.drawImage(img_eyeList[curEye], -eye_width / 2, -eye_height / 2, eye_width, eye_height);
     ctx.restore();

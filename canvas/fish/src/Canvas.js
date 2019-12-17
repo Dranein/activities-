@@ -1,11 +1,13 @@
 window.preTime = new Date();
 window.gapTime = 0;
 
-import {lerpDistance, lerpAngle, calLength2} from './commonFunctions';
+import {lerpDistance, lerpAngle, calLength2} from './helper';
 import Bubble from "./Bubble";
 import Kelp from "./Kelp";
 import Fish from "./Fish";
 import Babyfish from "./Babyfish";
+import Wave from "./Wave";
+import Dust from "./Dust";
 
 let mouseX = 0;
 let mouseY = 0;
@@ -15,8 +17,8 @@ class Canvas {
     this.el1 = el1;
     this.width = width;
     this.height = height;
-    this.el1.width  = this.width;
-    this.el1.height  = this.height;
+    this.el1.width = this.width;
+    this.el1.height = this.height;
     this.content1 = this.el1.getContext('2d');
     this.score = 0;
     this.scoreFn = scoreFn;
@@ -25,9 +27,12 @@ class Canvas {
     this.kelpList = [];
     this.kelpNum = 60;
     this.bubbleList = [];
-    this.bubbleNum = 20;
+    this.bubbleNum = 15;
     this.bigFish = '';
     this.babyFish = '';
+    this.waveList = [];
+    this.dustList = [];
+    this.dustNum = 30;
     this.isGameOver = false;
   }
 
@@ -36,8 +41,9 @@ class Canvas {
     this.initBubble();
     this.initFish();
     this.initBabyFish();
-    this.gameloop();
+    this.initDust();
     this.addEvent();
+    this.gameloop();
   }
 
   initKelp() {
@@ -93,6 +99,16 @@ class Canvas {
     this.babyFish.init();
   }
 
+  initDust() {
+    for (let i = 0; i < this.dustNum; i++) {
+      let dust = new Dust({
+        ctx: this.content1
+      });
+      this.dustList.push(dust);
+      dust.init();
+    }
+  }
+
   gameloop() {
     this.content1.clearRect(0, 0, this.width, this.height);
     window.gapTime = new Date() - window.preTime;
@@ -112,6 +128,11 @@ class Canvas {
       })
     });
 
+    this.waveList = this.waveList.filter(item => {
+      item.draw();
+      return item.alive;
+    })
+
     this.bubbleList.forEach(item => {
       item.bubblePointList = bubblePointList;
       item.draw();
@@ -130,11 +151,15 @@ class Canvas {
     this.bigFish.y = lerpDistance(mouseY, this.bigFish.y, 0.9);
     this.bigFish.draw();
 
+    this.dustList.forEach(item => {
+      item.draw();
+    })
+
     if (this.isGameOver) return;
     if (!this.babyFish.alive) {
       this.isGameOver = true;
-      this.el1.removeEventListener ('mousemove', this.handleMousemove, false);
-      this.el1.removeEventListener ('touchmove', this.handleTouchmove, false);
+      this.el1.removeEventListener('mousemove', this.handleMousemove, false);
+      this.el1.removeEventListener('touchmove', this.handleTouchmove, false);
       this.gameOverFn && this.gameOverFn(this.score);
       return false;
     }
@@ -147,16 +172,36 @@ class Canvas {
       let gap = calLength2(item.x, item.y, this.bigFish.x, this.bigFish.y);
       if (gap < 900) {
         this.bigFish.eatFood(item.type);
+        this.addWave(item.x, item.y);
         item.die();
         item.init();
       }
     }
   }
 
+  // 波动
+  addWave(x, y, radius, color) {
+    let wave = new Wave({
+      x, y, radius, color,
+      ctx: this.content1
+    })
+    wave.draw();
+    this.waveList.push(wave);
+  }
+
+  // 大鱼喂食
   fishFeed() {
     if (this.bigFish.foodNumber > 0) {
       let gap = calLength2(this.babyFish.x, this.babyFish.y, this.bigFish.x, this.bigFish.y);
+      let babyFishX = this.babyFish.x;
+      let babyFishY = this.babyFish.y;
       if (gap < 900) {
+        this.addWave(babyFishX, babyFishY, 100, '#ff805a');
+        if (this.bigFish.foodType === 1) {
+          setTimeout(() => {
+            this.addWave(babyFishX, babyFishY, 100, '#ff805a');
+          }, 200)
+        }
         this.babyFish.eatFood();
         this.score += parseInt(this.bigFish.foodType === 1 ? 200 : 100) * this.bigFish.foodNumber;
         this.scoreFn && this.scoreFn(this.score);

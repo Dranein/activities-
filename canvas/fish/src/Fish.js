@@ -4,12 +4,12 @@ class Fish {
   constructor({x = 0, y = 0, ctx}) {
     this.x = x;
     this.y = y;
-    this.tail_width = 20;
-    this.tail_height = 25;
+    this.tail_width = 25;
+    this.tail_height = 28;
     this.eye_width = 7;
     this.eye_height = 7;
-    this.width = 30;
-    this.height = 34;
+    this.width = 40;
+    this.height = 44;
     this.ctx = ctx;
     this.angle = 0;
     this.foodType = 0;
@@ -62,7 +62,7 @@ class Fish {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(angle);
-    ctx.drawImage(img_tailList[curTail], -tail_width / 2 + 18, -tail_height / 2, tail_width, tail_height);
+    ctx.drawImage(img_tailList[curTail], -tail_width / 2 + 22, -tail_height / 2, tail_width, tail_height);
     ctx.drawImage(img_bodyList[foodNumber], -width / 2, -height / 2, width, height);
     ctx.drawImage(img_eyeList[curEye], -eye_width / 2, -eye_height / 2, eye_width, eye_height);
     ctx.restore();

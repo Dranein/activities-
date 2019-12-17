@@ -8,7 +8,6 @@ class Kelp {
     this.color = '#37524b';
     this.alpha = 0.7;
     this.deltaTime = 0;
-
     this.quadraticEndX = 0;
     this.quadraticEndY = 0;
   }

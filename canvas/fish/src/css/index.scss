@@ -3,22 +3,6 @@ body, html{
   margin: 0;
 }
 
-#loadingbox {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 30px;
-  font-weight: bold;
-  color: #fff;
-  background: rgba(0, 0, 0, 1);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .wrapper {
   font-size: 0;
   position: relative;
@@ -37,7 +21,7 @@ body, html{
     background-size: cover;
   }
 }
-#canvas1 {
+#canvas {
   position: absolute;
   left: 0;
   top: 0;
