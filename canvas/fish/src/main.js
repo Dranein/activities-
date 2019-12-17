@@ -27,6 +27,7 @@ for (let i = 0; i < 7; i++) {
 setRequestAnimFrame();
 
 window.onload = () => {
+  let loadingboxDom = document.getElementById('loadingbox');
   imgPreLoad({
     imgList: [
       img_big,
@@ -39,9 +40,10 @@ window.onload = () => {
       ...img_bodyList
     ],
     progressCallback: progress => {
-
+      loadingboxDom.innerHTML = progress.toFixed(2) * 100 + '%';
     },
     sucessCallback: () => {
+      loadingboxDom.classList.add('hide');
       rederCanvas();
     }
   });
