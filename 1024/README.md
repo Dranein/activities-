@@ -1,373 +1,177 @@
-话不多说，先上个图：
-![预览图](https://user-gold-cdn.xitu.io/2019/12/5/16ed648efc1e8586?w=268&h=488&f=gif&s=279172)
+#canvas小游戏 - 爱心鱼
+## 前言
+该小游戏是慕课网课程的学习demo，视屏教程戳这里[爱心鱼](https://www.imooc.com/learn/515)
+看完了视屏之后觉得挺有意思，里面涉及到了一些做游戏常用的方法和技巧，碰撞，跟随运动，帧动画等；下面分享一下实现的思路；
 
-### 前言
-因为最近在学习react，就直接拿create-react-app的脚架做了，其实大可不必的哈，就是顺手拿了；[狗头.png]
+![预览图](https://user-gold-cdn.xitu.io/2019/12/17/16f137474cd7c636?w=392&h=219&f=gif&s=973136)
 
-[项目地址](https://github.com/Dranein/activities-/tree/master/1024)
-- `https://github.com/Dranein/activities-/tree/master/1024`
+
+
+## 项目信息
+[在线试玩](https://dranein.github.io/fish/) （因为是放在github上，所以loading会就一丢丢，不过他是真的有在load）
+
+源码地址： https://github.com/Dranein/activities-/tree/master/canvas/fish
 - `npm install`
-- `npm start`
+- `npm run start`
 
-浏览器打开：[http://localhost:3000](http://localhost:3000)
+## 开发前准备
+开发前用webpack搭个环境辅助开发，让你的开发效率更高哦，各个库之间支持的版本要注意下；
 
-打包好的文件在build中，浏览器打开里面的index.html也可以玩
+- `webpack-dev-server`热更新
 
-### 项目中用到的东西
-- `react`  （项目中利用数据绑定，操纵数组的方式实现游戏的逻辑；）
-- `hammerjs` [官网](http://hammerjs.github.io/) （hammerjs是移动端的手势库，实现监听用户的滑动操作）
+webpack简单的配置了一下：
+- 用`url-loader`和`image-webpack-loader`压缩了下图片，体积小的直接转为base64，减少http请求；
+- 配置了`sass`环境
+- 用`html-webpack-plugin`实现加入打包后的文件到指定的html模板
+- `uglifyjs-webpack-plugin` 代码压缩 (没有分环境，本地调试的时候就不用了，影响编译速度)
 
-### 具体实现
+## 游戏规则
+该游戏也叫大鱼喂小鱼，摆动的海草会长出鱼的食物，一种蓝色的（200分）一种黄色（100分）的，大鱼吃下鱼食，然后去喂小鱼，小鱼才可以存活，并得到分数，大鱼也可以连续吃下多颗食物再去喂养，如果长时间小鱼没有得到喂养，小鱼就死了，这个时间反应在小鱼的颜色上，小鱼颜色随着时间慢慢变浅，最后变为白色就游戏结束；
 
-#### -核心数据
+## 实现思路
+
+### 目录
+- `main.js` 入口文件是`src/main.js`,等待页面渲染完成，将初始化一个Canvas对象，在这里现在整个游戏的逻辑部分；
+- helper.js 为一些辅助函数
+- `Canvas.js` Canvas类中实现整个游戏逻辑
+- 然后就是几个对象类： `Fish.js`（大鱼） `Babyfish.js`（小鱼） `Kelp.js`（海草） `Bubble.js`（鱼食） `Wave.js`（波动） `Dust.js`（漂浮物）
+
+目录出来之后其实整个游戏的逻辑实现就比较清晰了
+
+### 来看看Canvas中的实现
+
+#### init()
+在`init()`中已经把要展示的东西都初始化出来了，并用数组或对象将其保存在Canvas的实例对象中
 ```javascript
-  constructor(props) {
-    super(props);
-    this.successScore = 2048; // 设置的win的数值
-    this.state = {
-      step: 0, // 当前步数
-      score: 0, // 当前得分
-      backPreClick: '', // 用来记录上一次操作，如果下次操作一样的就不产生随机数
-      list: [ // 视图绑定的数组，0为空格
-        [0, 2, 0, 0],
-        [0, 0, 4, 0],
-        [0, 0, 0, 2],
-        [2, 2, 4, 0]
-      ]
+  class Canvas {
+    constructor(){
+      this.kelpList = [];
+      this.kelpNum = 60;
+      this.bubbleList = [];
+      this.bubbleNum = 15;
+      this.bigFish = '';
+      this.babyFish = '';
+      this.waveList = [];
+      this.dustList = [];
+      this.dustNum = 30;
+      //...
     }
+    init() {
+      this.initKelp(); // 初始化海草
+      this.initBubble();  // 初始化食物
+      this.initFish(); // 初始化大鱼
+      this.initBabyFish(); // 初始化小鱼
+      this.initDust(); // 初始化漂浮物
+      this.addEvent(); // 添加事件
+      this.gameloop(); // 添加循环
+    }
+    //...
   }
 ```
-#### -页面布局
+
+#### gameloop()
+`gameloop()`的任务就是把画布擦除干净，然后重新绘制新的画布（大约20ms执行一次），所以我们在初始化的时候需要把各个对象存储起来，就是为了重新绘制的时候还能拿到；在每一次清除画布，重新绘制的过程中，如果我们改变画布中对象的属性，比如坐标，宽高；这样画布中的对象看起来就是在变化的；
 ```javascript
-render() {
-    let {list, score, step} = this.state;
-    return <div className='wrapper'>
-      <div className='game_head'>
-        <div className='game_head-box'>
-          <p>步数:</p>
-          <p>{step}</p>
-        </div>
-        <div className='game_head-box'>
-          <p>得分:</p>
-          <p>{score}</p>
-        </div>
-      </div>
-      <div className='game_content' ref='game'>
-        {
-          list.map((item, index) => (
-            <div key={index} className='game_row'>
-              {
-                item.map((itemC, indexC) => (
-                  <div key={'c' + indexC} className={'game_col game_col' + itemC}>{itemC}</div>
-                ))
-              }
-            </div>
-          ))
-        }
-      </div>
-    </div>;
+  gameloop() {
+    this.content1.clearRect(0, 0, this.width, this.height);
+    window.gapTime = new Date() - window.preTime;
+    if (window.gapTime > 40) window.gapTime = 40;
+    window.preTime = new Date();
+    this.animate();
+    window.requestAnimationFrame(this.gameloop.bind(this));
+  }
+
+  animate() {
+    // 要绘制在画布上的东西
   }
 ```
-#### -样式
-- 动态的`className`
+
+#### animate()
+`animate()`重新绘制内容到画布上
 ```javascript
-className={'game_col game_col' + itemC}>{itemC}
+  animate() {
+    this.kelpList.forEach(item => {
+      item.draw()
+    });
+
+    this.waveList = this.waveList.filter(item => {
+      item.draw();
+    })
+
+    // ...
+  }
 ```
-```css
-    .game_col {
-      width: 23%;
-      margin: 0 1%;
-      height: 100%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(189, 174, 141, 0.55);
-      font-size: 30px;
-      border-radius: 5px;
-      font-weight: bold;
-      &.game_col0 { font-size: 0; }
-      &.game_col2 { background: #f5c277; }
-      &.game_col4 { background: #f7b24c; }
+在重新绘制内容到画布的过程中，游戏的逻辑也在这里实现，包括:
+ - 大鱼是否吃到食物`fishEatubble()`
+ - 大鱼跟随鼠标运动
+ - 小鱼跟随大鱼运动
+ - 大鱼喂小鱼`fishFeed()`
+ - 游戏是否结束
+
+#### 物体碰撞
+关于大鱼是否吃到食物和大鱼喂小鱼的判断，都用到物体碰撞的概念，在这里用两点间距离实现，如果两点间距离小于特定值，就判断两个物体接触到了；
+```javascript
+// 求两个坐标点的距离，结果为平方值；
+  function calLength2(x1, y1, x2, y2) {
+    return Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+  }
+```
+
+#### 跟随运动
+大鱼跟着鼠标运动，小鱼跟着大鱼运动，如果只是实现点到点的运动，动画看起来十分的生硬；
+`lerpDistance`方法可以返回原始数值和目标数值之间的值（ratio取值为0-1），在`gameloop`循环下，两点会越来越接近；
+
+```javascript
+  // 距离趋向
+  function lerpDistance(aim, cur, ratio) {
+    var delta = cur - aim;
+    return aim + delta * ratio;
+  }
+```
+
+除了距离之外，还有角度的趋向
+```javascript
+  // 距离趋向
+  function lerpAngle(aim, cur, ratio) {
+    var delta = cur - aim;
+    if (delta > Math.PI) delta = delta - 2 * Math.PI;
+    if (delta < -Math.PI) delta = delta + 2 * Math.PI;
+    return aim + delta * ratio;
+  }
+```
+
+### Kelp海草
+海草是随机生成的竖线，带有一定的透明度，`ctx.lineCap = "round"`实现顶端圆弧；
+比较难的点是让海草摆动起来，这里运用了[二次贝塞尔曲线](https://www.runoob.com/tags/canvas-quadraticcurveto.html)`quadraticCurveTo`,曲线的起始点是最底部，控制点在运动过程中不用变，我们只要改变他的结束点就可以实现摆动；
+
+我们让海草结束点之间`x + [-70, +70]`之间来回运动, 这时候你会发现在临界值（也就是 x - 70 和 x + 70）的时候, 海草会立马向反方向运动，运动没有曲线，正常逻辑下应该是个缓冲运动；为了实现这点，我们可以使用`Math`的[正弦函数](https://baike.baidu.com/item/%E6%AD%A3%E5%BC%A6?fromtitle=%E6%AD%A3%E5%BC%A6%E5%87%BD%E6%95%B0&fromid=9601948)；
+
+```javascript
+  class Kelp {
+    constructor() {
+      this.deltaTime = 0;
+      this.quadraticEndX = 0;
+      this.quadraticEndY = 0;
+    }
+    //...
+    draw() {
+      //...
+      this.deltaTime += 0.01;
+      let sin = Math.sin(this.deltaTime);
+      this.quadraticEndX = x + sin * 70;
+      this.quadraticEndY = (ctx.canvas.height - height) + Math.abs(sin * 8);
+      ctx.moveTo(x, ctx.canvas.height);  // 移动到起始点
+      ctx.quadraticCurveTo(x, (ctx.canvas.height - height) * 1.18, this.quadraticEndX, this.quadraticEndY);  // （控制点x, 控制点y, 结束点x, 结束点y）
       // ...
     }
-```
-#### 逻辑代码
-主要的函数
-- `merge(list)` // 相加合并
-- `handleLeft()` // 左移
-- `handleRight()` // 右移
-- `handleTop()` // 上移
-- `handleBottom()` // 下移
-- `toSetDate(list, type)` // 更新状态
-- `rotate(arr, clockwise)` // 旋转数组
-- `updateStateAfter(isSameClick)` // 数据更新之后的函数，做游戏状态的判断
-- `isWin(list)` // 判断是否赢了
-- `isGameOver(list)` // 判断是否已经没有操作空间了，gameover
-- `addRandom()` // 在随机空格随机添加0,2或4
-- `isFull(list)` // 辅助函数，是否满格
-
-###### `merge(list)`
-- 主要的函数，所有方向的合并相加都是以向左相加为基础，通过旋转数组来变成向左相加，然后再旋转回去；
-- 新建一个空数组`newArr`，用于存放合并相加的项
-- 遍历数组中的每一行，并过滤0；
-   1. 将当前项和下一项做对比，如果相等的话就相加并添加到新数组中，这时候下一项就要置0了，因为接下来下一项还要和他的下一项做对比；
-   2. 如果不相等的话，就直接放入新数组中；
-- 遍历之后我们得到了一个合并相加的新数组，但是是过滤了0的，我们需要给每一行补全0；
-- 更新`score`，合并之后是得分，得分为合并的数值；
-```javascript
-  merge(list) {
-    let arr = list;
-    let newArr = [];
-    let score = 0;
-    for (let i = 0; i < arr.length; i++) {
-      newArr[i] = [];
-      let arrCutZero = arr[i].filter(item => item !== 0);
-      for (let k = 0; k < arrCutZero.length; k++) {
-        if (arrCutZero[k + 1] && arrCutZero[k + 1] === arrCutZero[k]) {
-          newArr[i][k] = arrCutZero[k] * 2;
-          arrCutZero[k + 1] = 0;
-          score += newArr[i][k];
-        } else {
-          newArr[i][k] = arrCutZero[k];
-        }
-      }
-      let num = list[0].length - newArr[i].length;
-      if (num > 0) {
-        newArr[i].splice(newArr[i].length, 0, ...Array(num).fill(0));
-      }
-    }
-    this.setState({
-      score: this.state.score + score
-    })
-    return newArr;
   }
 ```
-###### `handleLeft()`
-- 左相加，直接执行合并相加，并更新数据；
-```javascript
-  handleLeft() {
-    let list = this.merge(this.state.list);
-    this.toSetDate(list, 'left');
-  }
-```
-###### `handleTop()`
-- 上相加，逆时针旋转数组，变成可以左相加，合并相加再旋转回来；
-```javascript
-  handleTop() {
-    let list = this.rotate(this.state.list);
-    list = this.merge(list);
-    list = this.rotate(list, true);
-    this.toSetDate(list, 'top');
-  }
-```
-###### `handleRight()`
-- 右相加，实际上就是颠倒每一行的数组，然后执行左相加，再颠倒回来，就实现了右相加；
-- 也可以通过旋转两次数组，左相加，再旋转回来，但显然上面的步骤会更方便点；
-```javascript
-  handleRight() {
-    let {list} = this.state;
-    list = list.map(item => item.reverse());
-    list = this.merge(list);
-    list = list.map(item => item.reverse());
-    this.toSetDate(list, 'right');
-  }
-```
-###### `handleBottom()`
-- 下相加，顺时针旋转数组，变成可以左相加，合并相加再旋转回来；
-```javascript
-  handleBottom() {
-    let list = this.rotate(this.state.list, true);
-    list = this.merge(list);
-    list = this.rotate(list);
-    this.toSetDate(list, 'bottom');
-  }
-```
-###### `toSetDate(list, type)`
-- 参数`type`为滑动的方向，用于判断上一步和当前是否是同个方向；并更新`backPreClick`
-- 更新数组，更新视图数据
-- 在更新数组的回调中判断游戏的状态，执行`updateStateAfter`函数；
-```javascript
-  toSetDate(list, type) {
-    const click = this.state.backPreClick;
-    this.setState({
-      backPreClick: click === type ? click : type,
-      list
-    }, () => {
-      this.updateStateAfter(click === type);
-    })
-  }
-```
-###### `rotate(arr, clockwise)`
-参数`clockwise`表示数组是按顺时针旋转还是按照逆时针旋转；`true`为顺时针；当我们旋转了数组，并做了合并相加之后，还需要把数组旋转回来；
-```javascript
-// 以下是逆时针旋转数组的效果
-[1, 2, 3]  [3, 6, 9]
-[4, 5, 6]  [2, 5, 8]
-[7, 8, 9]  [1, 4, 7]
-```
-```javascript
-  rotate(list, clockwise) {
-    let newArr = [];
-    let len = list.length;
-    for (let i = 0; i < len; i++) {
-      newArr[i] = [];
-      for (let j = 0; j < len; j++) {
-        if (clockwise) {
-          newArr[i][j] = list[len - 1 - j][i];
-        } else {
-          newArr[i][j] = list[j][len - 1 - i];
-        }
-      }
-    }
-    return newArr;
-  }
-  ```
-###### `updateStateAfter(isSameClick)`
-- 参数`isSameClick`记录是否和上一步是同个方向，如果同个方向的话是不产生随机数的，增加游戏难度；
-- 数据更新了需要记录一个步数；`step++`；
-- 然后判断是否达到预设数值，达到就赢了，游戏结束；
-- 判断是否和上一步同个方向，不是的话就在空格新增随机数；
-- 然后判断是否游戏结束gameover；
-```javascript
-  updateStateAfter(isSameClick) {
-    let {list} = this.state;
-    this.setState({
-      step: this.state.step + 1
-    })
-    if (this.isWin(list)) {
-      alert('恭喜你成功了！');
-    } else {
-      if (!isSameClick) this.addRandom();
-      if (this.isGameOver(list)) {
-        alert('游戏结束！');
-      }
-    }
-  }
-```
-###### `isWin(list)`
-如果数组中有成员=我们设置的成功值，就win了；
-```javascript
-  isWin(list) {
-    let arr = [].concat(...list);
-    return arr.some(val => val === this.successScore);
-  }
-```
-###### `isGameOver(list)`
-- 判断是否是满格的，如果还没满格，那肯定还没结束，直接return;
-- 遍历数组，如果数组中的成员上下左右都没有相同项可以合并，那就gameover了；
-```javascript
-  isGameOver(list) {
-    let result = true;
-    let isFull = this.isFull(list);
-    if (!isFull) return false; // 还没填满，游戏继续
-    let len = this.state.list.length;
-    let myList = this.state.list;
-    for (let i = 0; i < len; i++) {
-      for (let j = 0; j < len; j++) {
-        let curItem = myList[i][j];
-        // 判断上面是否有相等的；
-        if (i !== 0 && curItem === myList[i - 1][j]) {
-          result = false;
-          break;
-        }
-        // 判断下面面是否有相等的；
-        if (i !== len - 1 && curItem === myList[i + 1][j]) {
-          result = false;
-          break;
-        }
-        // 判断左边是否有相等的；
-        if (j !== 0 && curItem === myList[i][j - 1]) {
-          result = false;
-          break;
-        }
-        // 判断右边是否有相等的；
-        if (j !== len - 1 && curItem === myList[i][j + 1]) {
-          result = false;
-          break;
-        }
-      }
-    }
-    return result;
-  }
-```
-###### `addRandom()`
-- 先判断是否已经满格了，如果满格那就直接`return`了；
-- 如果是随机到`0`，那也可以直接`return`了；
-- 随机位置：找到空格的位置，也就是数组中为`0`的坐标；
-```javascript
-  addRandom() {
-    let isFull = this.isFull(this.state.list);
-    if (isFull) return;
-    const RANDOM = [0, 2, 4][Math.round(Math.random() * 2)];
-    if (RANDOM === 0) return;
-    let arr = this.state.list;
-    let len = arr.length;
-    let arrZero = [];
-    for(let i = 0; i < len; i++) {
-      for(let j = 0; j < len; j++) {
-        if (arr[i][j] === 0) arrZero.push({x: i, y: j});
-      }
-    }
-    const INDEX = Math.round(Math.random() * (arrZero.length - 1));
-    arr[arrZero[INDEX].x][arrZero[INDEX].y] = RANDOM;
-    this.setState({
-      list: arr
-    })
-  }
-}
-```
-###### `isFull(list)`
-如果数组中没有`0`了，说明已经满格了；
-```javascript
-  isFull(list) {
-    let arr = [].concat(...list);
-    return !arr.some(val => val === 0);
-  }
-```
+`Math.sin()`的返回值是[-1, 1]，this.deltaTime的增加速度影响震动的频率，也就是海草摇摆的速度；
 
 
-#### 滑动监听 hammerjs
-- 实例化`Hammer`传入节点对象(这边通过设置了ref，可以直接过去节点)；
-- `Hammer`默认不开启垂直方向的滑动，可手动开启
+未完待续
 
-### 具体实现
-```javascript
-  componentDidMount() {
-    let hammer = new Hammer(this.refs['game']);
-    // 开启垂直方向滑动
-    hammer.get('swipe').set({
-      direction: Hammer.DIRECTION_ALL
-    });
-    // 绑定滑动事件
-    hammer.on('swipeleft swiperight swipeup swipedown', (ev) => {
-      switch (ev.type) {
-        case 'swipeleft':
-          this.handleLeft();
-          break;
-        case 'swiperight':
-          this.handleRight();
-          break;
-        case 'swipeup':
-          this.handleTop();
-          break;
-        case 'swipedown':
-          this.handleBottom();
-          break;
-        default:
-          break;
-      }
-    });
-  }
-```
-#### 扩展
-- 可以做键盘按键的监听，绑定 ↑ ← ↓ → 执行 `handleTop()`, `handleLeft()`...即可
-
-#### todo
-- 添加动画，因为是用数据驱动去做的，感觉添加动画有点无从下手，大神们看到这里如果有头绪可以指导一下；
-- 级别设置，可以通过格子的个数和过关所需要达到的分数做等级区分
-
-本着多分享多学习的心态，欢迎交流
 
 dranein@163.com
 
-地址：https://github.com/Dranein/activities-/tree/master/1024
+地址：https://github.com/Dranein/activities-/tree/master/canvas/fish

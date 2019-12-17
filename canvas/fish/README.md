@@ -4,6 +4,8 @@
 该小游戏是慕课网课程的学习demo，视屏教程戳这里[爱心鱼](https://www.imooc.com/learn/515)
 看完了视屏之后觉得挺有意思，里面涉及到了一些做游戏常用的方法和技巧，碰撞，跟随运动，帧动画等；下面分享一下实现的思路；
 
+![预览图](https://github.com/Dranein/activities-/blob/master/fish.gif?raw=true)
+
 
 
 ### 项目信息
