@@ -1,3 +1,6 @@
+import {Howl} from 'howler';
+import sound_bg from './sound/bg.mp3';
+import sound_gameover from './sound/gameover.mp3';
 import {setRequestAnimFrame} from './helper';
 import Canvas from './Canvas';
 import './css/index.scss';
@@ -10,6 +13,13 @@ window.onload = () => {
   rederCanvas();
 }
 
+let soundBg = new Howl({
+  src: sound_bg,
+  loop: true
+});
+let soundGameover = new Howl({
+  src: sound_gameover
+});
 
 function rederCanvas () {
   let canvas1 = document.getElementById('canvas');
@@ -31,14 +41,19 @@ function rederCanvas () {
     },
     gameOverFn: score => {
       gameoverDom.classList.remove("hide");
+      soundBg.pause();
+      soundGameover.play();
     }
   })
   startDom.onclick = () => {
     startDom.parentNode.classList.add("hide");
     canvasObj.init();
+    soundBg.play();
   }
   playagainDom.onclick = () => {
     gameoverDom.classList.add("hide");
     canvasObj.init();
+    soundGameover.pause();
+    soundBg.play();
   }
 }

@@ -1,14 +1,27 @@
+import {Howl} from 'howler';
+import {lerpDistance, calLength2} from './helper';
+import sound_boom from './sound/boom.mp3';
+
+import EnemyPlane from "./EnemyPlane";
+import MyPlane from "./MyPlane";
+import sound_upgrade from "./sound/upgrade.mp3";
+
 window.preTime = new Date();
 window.gapTime = 0;
 window.gameLevel = 0;
 
-import {lerpDistance, lerpAngle, calLength2} from './helper';
-
-import EnemyPlane from "./EnemyPlane";
-import MyPlane from "./MyPlane";
-
 let mouseX = 0;
 let mouseY = 0;
+
+let soundBom = new Howl({
+  src: sound_boom,
+  volume: 0.2
+});
+let soundUpgrade = new Howl({
+  src: sound_upgrade,
+  volume: 0.8
+});
+
 
 class Canvas {
   constructor({el1, width, height, scoreFn, gameOverFn}) {
@@ -98,6 +111,7 @@ class Canvas {
     let arr = [1000, 2000, 3000, 4000, 5000, 6000, 7000];
     if (arr.indexOf(this.score) > -1) {
       this.myPlane.upgrade();
+      soundUpgrade.play();
       window.gameLevel++;
     }
   }
@@ -113,6 +127,7 @@ class Canvas {
         let gap = calLength2(enemyPlaneItem.x, enemyPlaneItem.y, bullet.x, bullet.y);
         if (gap < 1600 && !enemyPlaneItem.isBooming) {
           enemyPlaneItem.boom();
+          soundBom.play();
           bullet.alive = false;
           this.score += 100;
           this.scoreFn && this.scoreFn(this.score);

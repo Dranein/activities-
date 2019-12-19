@@ -22,5 +22,8 @@
     "url-loader": "^3.0.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.6.1"
+  },
+  "dependencies": {
+    "howler": "^2.1.2"
   }
 }

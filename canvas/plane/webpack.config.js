@@ -10,20 +10,29 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.mp3$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: 'audios/[name].[ext]'
+          }
+        }]
+      }, {
         test: /\.(png|jpg|gif|svg)$/,
         use: [{
           loader: 'url-loader',
           options: {
             limit: 10000,
-            name: '[name].[ext]',
-            outputPath: './img',
-            publicPath: './img'
+            name: 'images/[name].[ext]'
           }
         }, {
           loader: 'image-webpack-loader'
         }]
-      },
-      {test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']}
+      }, {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
+      }
     ]
   },
   plugins: [
