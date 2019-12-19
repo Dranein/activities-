@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>canvas</title>
+  <title>canvas飞机大战</title>
   <style>
     #loadingbox {
       position: fixed;
@@ -27,7 +27,8 @@
   <div id="loadingbox">正在加载...</div>
   <div class="wrapper">
     <div class="gameStart">
-      <div id="start" class="gameStart_btn">Start</div>
+      <div>欢迎来到飞机大战</div>
+      <div id="start" class="btn">Start</div>
     </div>
     <canvas id="canvas"></canvas>
     <div class="gameFooter">
@@ -36,6 +37,7 @@
     <div id="gameover" class="hide">
       <p>game over</p>
       <p>最后得分：<span class="score">0<span></p>
+      <div id="playagain" class="btn">重新开始</div>
     </div>
   </div>
 </body>

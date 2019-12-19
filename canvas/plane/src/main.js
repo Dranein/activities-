@@ -15,6 +15,7 @@ function rederCanvas () {
   let canvas1 = document.getElementById('canvas');
   let gameoverDom = document.getElementById('gameover');
   let startDom = document.getElementById('start');
+  let playagainDom = document.getElementById('playagain');
   let scoreDomList = document.getElementsByClassName('score');
   let parentNode = canvas1.parentNode;
   let canvasObj = new Canvas({
@@ -36,7 +37,8 @@ function rederCanvas () {
     startDom.parentNode.classList.add("hide");
     canvasObj.init();
   }
-
-  startDom.parentNode.classList.add("hide");
-  canvasObj.init();
+  playagainDom.onclick = () => {
+    gameoverDom.classList.add("hide");
+    canvasObj.init();
+  }
 }

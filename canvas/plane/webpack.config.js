@@ -31,7 +31,7 @@ const config = {
       filename: "index.html",
       template: "./index.html"
     }),
-    // new UglifyJsPlugin(),
+    new UglifyJsPlugin()
   ]
 }
 

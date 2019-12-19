@@ -1,6 +1,7 @@
 body, html{
   padding: 0;
   margin: 0;
+  background: #111;
 }
 
 .wrapper {
@@ -8,20 +9,20 @@ body, html{
   position: relative;
   height: 100vh;
   overflow: hidden;
-  max-width: 665px;
+  max-width: 550px;
   margin: 0 auto;
-  background: #111 url("../images/bg.jpg") repeat-y;
-  background-size: cover;
-  background-position: 0 0;
+  background: #111 url("../images/bg2.jpg") center center repeat-y;
+  background-size: auto 100%;
+  background-position-y: 0;
   animation: moveBg 15s infinite linear;
 }
 
 @keyframes moveBg {
   0% {
-    background-position: 0 0;
+    background-position-y: 0;
   }
   100% {
-    background-position: 0 100vh;
+    background-position-y: 100vh;
   }
 }
 
@@ -59,25 +60,31 @@ body, html{
 
 .gameStart {
   position: absolute;
+  background: #111 url("../images/bg2.jpg") center center repeat-y;
+  background-size: auto 100%;
   z-index: 100;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: #111;
-  &_btn {
-    position: absolute;
-    bottom: 20%;
-    left: 50%;
-    font-size: 20px;
-    background: #fff;
-    color: #d42e2e;
-    font-weight: bold;
-    padding: 10px 30px;
-    border-radius: 5px;
-    transform: translateX(-50%);
-    box-shadow: 0 0 8px rgba(41, 18, 18, 0.5);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+
+}
+
+.btn {
+  background: #fff;
+  color: #d42e2e;
+  font-weight: bold;
+  padding: 10px 30px;
+  margin: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(41, 18, 18, 0.5);
 }
 .hide {
   display: none !important;
